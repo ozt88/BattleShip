@@ -2,12 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "Player.h"
-#include "Board.h"
-#include "AirCraft.h"
-#include "BattleShip.h"
-#include "Cruiser.h"
-#include "Destroyer.h"
 #include "GameManager.h"
 
 int _tmain(int argc, _TCHAR* argv[])

@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "GameManager.h"
-#include "Player.h"
-#include "AirCraft.h"
-#include "BattleShip.h"
-#include "Cruiser.h"
-#include "Destroyer.h"                                                       
+#include "Player.h"                                            
 
 static int numOfTurn;
 
