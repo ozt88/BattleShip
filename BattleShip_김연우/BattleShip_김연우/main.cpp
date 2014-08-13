@@ -2,12 +2,12 @@
 //
 
 #include "stdafx.h"
-#include "GameManager.h"
+#include "Engine.h"
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	GameManager gm;
-	gm.GameStart();
+	Engine engine;
+	engine.EngineStart();
 	getchar();
 	return 0;
 }

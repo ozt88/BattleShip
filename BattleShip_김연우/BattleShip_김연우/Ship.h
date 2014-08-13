@@ -10,11 +10,9 @@ public:
 
 	void				AddPosition( Position addPos );
 	virtual HitResult	HitCheck( Position hitPos );
+	void				SetHP( int _hp ){m_HP = _hp;}
 	int					GetHP();
-	int					GetMaxHP()
-	{
-		return m_MaxHP;
-	}
+	int					GetMaxHP(){return m_MaxHP;}
 	void				Print();
 	bool				IsDestroyed();
 	bool				IsDuplicate( Position checkPos );
