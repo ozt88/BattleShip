@@ -14,7 +14,8 @@ public:
 	void	SetBoard( Position position , HitResult hitResult )
 	{m_Board[position.m_X][position.m_Y] = hitResult;}
 
-	bool	 IsWater( int posX , int posY );
+	void	 InitBoard();
+	bool	 IsWater( Position checkPos );
 	void	 PrintBoard();
 	bool	 IsOutOfBoard( Position checkPos );
 

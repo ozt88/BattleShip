@@ -11,7 +11,7 @@ Board::Board()
 		m_Board[i] = new HitResult[m_Width];
 		for( int j = 0; j < m_Width; ++j )
 		{
-			m_Board[i][j] = NONE;
+			m_Board[i][j] = RESULT_NONE;
 		}
 	}
 }
@@ -27,9 +27,9 @@ bool Board::IsOutOfBoard( Position checkPos )
 			 || checkPos.m_Y < 0 || checkPos.m_Y >= m_Height );
 }
 
-bool Board::IsWater( int posX , int posY )
+bool Board::IsWater( Position checkPos )
 {
-	return m_Board[posX][posY] == NONE;
+	return m_Board[checkPos.m_X][checkPos.m_Y] == RESULT_NONE;
 }
 
 void Board::PrintBoard()
@@ -38,7 +38,7 @@ void Board::PrintBoard()
 	{
 		for( int j = 0; j < m_Width; ++j )
 		{
-			if( m_Board[i][j] == NONE )
+			if( m_Board[i][j] == RESULT_NONE )
 			{
 				printf_s( " ~ " );
 			}
@@ -48,5 +48,16 @@ void Board::PrintBoard()
 			}
 		}
 		printf_s( "\n" );
+	}
+}
+
+void Board::InitBoard()
+{
+	for( int i = 0; i < m_Height; i++ )
+	{
+		for( int j = 0; j < m_Width; ++j )
+		{
+			m_Board[i][j] = RESULT_NONE;
+		}
 	}
 }

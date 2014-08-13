@@ -11,24 +11,19 @@ public:
 	Player();
 	~Player();
 
-	void		PrintShips();
+	void		InitPlayer();
 	void		SetupShips(); // random location, random direction, check if within map bounds, ships can't overlap
+	
 	void		SetMyBoard( Position position , HitResult hitResult );
 	void		SetEnemyBoard( Position position , HitResult hitResult );
 	void		GetMyBoard();
-
-	std::string getName()
-	{
-		return m_Name;
-	}
-	void		setName( std::string name )
-	{
-		m_Name = name;
-	}
-
+	std::string getName(){return m_Name;}
+	void		setName( std::string name ){m_Name = name;}
 	bool		AllShipIsDestroyed();
+
 	Position	Attack();
 	HitResult	SendResult( Position position );
+	void		PrintShips();
 
 
 protected:

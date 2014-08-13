@@ -19,10 +19,11 @@ GameManager::~GameManager()
 
 void GameManager::InitGame()
 {
+	system( "cls" );
 	numOfTurn = 0;
 	printf_s( "Let the game begin\n" );
-	m_Attacker->SetupShips();
-	m_Defender->SetupShips();
+	m_Attacker->InitPlayer();
+	m_Defender->InitPlayer();
 }
 
 void GameManager::Update()
@@ -35,15 +36,15 @@ void GameManager::Update()
 
 	//check process
 	PrintResult( hitResult );
-	m_Defender->GetMyBoard();
-	m_Defender->PrintShips();
+	//m_Defender->GetMyBoard();
+	//m_Defender->PrintShips();
 }
 
 void GameManager::PrintResult( HitResult hitResult )
 {
 	switch( hitResult )
 	{
-		case NONE:
+		case RESULT_NONE:
 			printf_s( "Result Error\n" );
 			break;
 		case HIT:
@@ -80,7 +81,9 @@ void GameManager::GameStart()
 		Update();
 		if( m_Defender->AllShipIsDestroyed() )
 		{
-			printf_s( "%s is Over\n" , m_Defender->getName().c_str() );
+			printf_s( "In %d turn, %s is Over\n" , numOfTurn, m_Defender->getName().c_str() );
+			fflush( stdin );
+			getchar();
 			break;
 		}
 	}

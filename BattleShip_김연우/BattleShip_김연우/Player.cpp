@@ -37,24 +37,24 @@ Player::~Player()
 
 void Player::SetupShips()
 {
-	srand( time( NULL ) );
 	int maxHeight = m_MyBoard->GetMaxHeight();
 	int maxWidth = m_MyBoard->GetMaxWidth();
 	int maxHp = 0;
 	Position setPos;
 	Direction direction = UP;
 
-	for( auto iterPos : m_ShipList )
+	for( auto shipIter : m_ShipList )
 	{
-		maxHp = iterPos->GetMaxHP();
+		maxHp = shipIter->GetMaxHP();
+		shipIter->SetHP( maxHp );
 		do
 		{
 			direction = ( Direction )( rand() % 4 );
 
 			setPos.m_X = rand() % maxWidth;
 			setPos.m_Y = rand() % maxHeight;
-		} while( !IsValidPosition( setPos , iterPos->GetMaxHP() , direction ) );
-		PlaceShip( *iterPos , setPos , direction );
+		} while( !IsValidPosition( setPos , maxHp , direction ) );
+		PlaceShip( *shipIter , setPos , direction );
 	}
 }
 
@@ -122,34 +122,30 @@ bool Player::IsValidPosition( Position setPos , int maxHp , Direction direction 
 
 void Player::PrintShips()
 {
-	for( auto iterPos : m_ShipList )
+	for( auto shipIter : m_ShipList )
 	{
-		iterPos->Print();
+		shipIter->Print();
 	}
 }
 
 Position Player::Attack()
 {
-	Position position;
-	int posX = 0;
-	int posY = 0;
+	Position attackPos;
 	do
 	{
-		posX = rand() % m_EnemyBoard->GetMaxWidth();
-		posY = rand() % m_EnemyBoard->GetMaxHeight();
-	} while( !m_EnemyBoard->IsWater( posX , posY ) );
-	position.m_X = posX;
-	position.m_Y = posY;
-	return position;
+		attackPos.m_X = rand() % m_EnemyBoard->GetMaxWidth();
+		attackPos.m_Y = rand() % m_EnemyBoard->GetMaxHeight();
+	} while( !m_EnemyBoard->IsWater( attackPos ) );
+	return attackPos;
 }
 
 HitResult Player::SendResult( Position position )
 {
-	HitResult hitResult = NONE;
+	HitResult hitResult = RESULT_NONE;
 
-	for( auto ship : m_ShipList )
+	for( auto shipIter : m_ShipList )
 	{
-		hitResult = ship->HitCheck( position );
+		hitResult = shipIter->HitCheck( position );
 		if( hitResult != MISS )
 		{
 			break;
@@ -171,9 +167,9 @@ void Player::SetEnemyBoard( Position position , HitResult hitResult )
 
 bool Player::AllShipIsDestroyed()
 {
-	for( auto ship : m_ShipList )
+	for( auto shipIter : m_ShipList )
 	{
-		if( !ship->IsDestroyed() )
+		if( !shipIter->IsDestroyed() )
 		{
 			return false;
 		}
@@ -185,4 +181,12 @@ void Player::GetMyBoard()
 {
 	m_MyBoard->PrintBoard();
 }
+
+void Player::InitPlayer()
+{
+	m_MyBoard->InitBoard();
+	m_EnemyBoard->InitBoard();
+	SetupShips();
+}
+
 

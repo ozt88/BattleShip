@@ -27,7 +27,7 @@ enum Direction
 
 enum HitResult
 {
-	NONE ,
+	RESULT_NONE ,
 	HIT ,
 	MISS ,
 	DESTROY ,
@@ -43,4 +43,11 @@ enum ShipType
 	CRUISER ,
 	BATTLESHIP ,
 	AIRCRAFT ,
+};
+
+enum Menu
+{
+	MENU_NONE,
+	GAMESTART,
+	GAMEQUIT,
 };
