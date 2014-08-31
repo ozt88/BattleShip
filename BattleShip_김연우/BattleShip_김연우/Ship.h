@@ -6,11 +6,12 @@ class Ship
 {
 public:
 	Ship();
-	~Ship();
+	virtual ~Ship();
 
+	void				ShipInit();
 	void				AddPosition( Position addPos );
 	virtual HitResult	HitCheck( Position hitPos );
-	void				SetHP( int _hp ){m_HP = _hp;}
+	void				SetHP( int _hp );
 	int					GetHP();
 	int					GetMaxHP(){return m_MaxHP;}
 	void				Print();

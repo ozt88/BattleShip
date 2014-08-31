@@ -3,11 +3,16 @@
 
 Ship::Ship()
 {
+	m_Pos.clear();
+	m_Name.clear();
+	m_MaxHP = 0;
 	m_HP = 0;
 }
 
 Ship::~Ship()
 {
+	m_Pos.clear();
+	m_Name.clear();
 }
 
 void Ship::AddPosition( Position addPos )
@@ -76,5 +81,19 @@ bool Ship::IsDestroyed()
 {
 	return ( m_HP <= 0 );
 }
+
+void Ship::ShipInit()
+{
+	SetHP( m_MaxHP );
+}
+
+void Ship::SetHP( int _hp )
+{
+	_ASSERTE( _hp < 100 && "HP is Over 100" );
+	
+	m_HP = _hp;
+}
+
+
 
 

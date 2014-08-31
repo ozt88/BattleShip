@@ -27,7 +27,7 @@ enum Direction
 
 enum HitResult
 {
-	RESULT_NONE ,
+	WATER ,
 	HIT ,
 	MISS ,
 	DESTROY ,

@@ -12,14 +12,14 @@ Player::Player()
 	m_Name = "Player";
 	m_MyBoard = new Board;
 	m_EnemyBoard = new Board;
-	std::list<Ship*> shipListFromManager;
-	std::list<Ship*>::iterator iterPos = m_ShipList.begin();
 	m_ShipList.push_back( new AirCraft() );
 	m_ShipList.push_back( new BattleShip() );
 	m_ShipList.push_back( new Cruiser() );
 	m_ShipList.push_back( new Destroyer() );
 	m_ShipList.push_back( new Destroyer() );
-	//shipList.insert( iterPos , shipListFromManager.begin() , shipListFromManager.end() );
+// 	std::list<Ship*> shipListFromManager;
+// 	std::list<Ship*>::iterator iterPos = m_ShipList.begin();
+//	shipList.insert( iterPos , shipListFromManager.begin() , shipListFromManager.end() );
 }
 
 
@@ -39,31 +39,33 @@ void Player::SetupShips()
 {
 	int maxHeight = m_MyBoard->GetMaxHeight();
 	int maxWidth = m_MyBoard->GetMaxWidth();
-	int maxHp = 0;
 	Position setPos;
 	Direction direction = UP;
 
 	for( auto shipIter : m_ShipList )
 	{
-		maxHp = shipIter->GetMaxHP();
-		shipIter->SetHP( maxHp );
+		shipIter->ShipInit();
 		do
 		{
 			direction = ( Direction )( rand() % 4 );
-
 			setPos.m_X = rand() % maxWidth;
 			setPos.m_Y = rand() % maxHeight;
-		} while( !IsValidPosition( setPos , maxHp , direction ) );
-		PlaceShip( *shipIter , setPos , direction );
+		} while( !IsValidPosition(setPos , shipIter->GetMaxHP() , direction ) );
+		PlaceShip( shipIter , setPos , direction );
 	}
 }
 
 
-void Player::PlaceShip( Ship& ship , Position setPos , Direction direction )
+void Player::PlaceShip( Ship* ship , Position setPos , Direction direction )
 {
-	for( int i = 0; i < ship.GetMaxHP(); i++ )
+	if( ship == nullptr )
 	{
-		ship.AddPosition( setPos );
+		return;
+	}
+
+	for( int i = 0; i < ship->GetMaxHP(); i++ )
+	{
+		ship->AddPosition( setPos );
 
 		switch( direction )
 		{
@@ -141,7 +143,7 @@ Position Player::Attack()
 
 HitResult Player::SendResult( Position position )
 {
-	HitResult hitResult = RESULT_NONE;
+	HitResult hitResult = WATER;
 
 	for( auto shipIter : m_ShipList )
 	{
@@ -155,14 +157,14 @@ HitResult Player::SendResult( Position position )
 	return hitResult;
 }
 
-void Player::SetMyBoard( Position position , HitResult hitResult )
+void Player::UpdateMyBoard( Position position , HitResult hitResult )
 {
-	m_MyBoard->SetBoard( position , hitResult );
+	m_MyBoard->MapUpdate( position , hitResult );
 }
 
-void Player::SetEnemyBoard( Position position , HitResult hitResult )
+void Player::UpdateEnemyBoard( Position position , HitResult hitResult )
 {
-	m_EnemyBoard->SetBoard( position , hitResult );
+	m_EnemyBoard->MapUpdate( position , hitResult );
 }
 
 bool Player::AllShipIsDestroyed()
@@ -177,7 +179,7 @@ bool Player::AllShipIsDestroyed()
 	return true;
 }
 
-void Player::GetMyBoard()
+void Player::PrintMyBoard()
 {
 	m_MyBoard->PrintBoard();
 }

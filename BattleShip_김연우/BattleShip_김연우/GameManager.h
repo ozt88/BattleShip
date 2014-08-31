@@ -1,7 +1,6 @@
 #pragma once
 #include "Enums.h"
 
-class Board;
 class Player;
 
 class GameManager
@@ -18,5 +17,6 @@ public:
 private:
 	Player* m_Attacker;
 	Player* m_Defender;
+	int		m_NumOfTurn;
 };
 

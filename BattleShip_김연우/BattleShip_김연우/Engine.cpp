@@ -16,7 +16,7 @@ Engine::~Engine()
 void Engine::EngineStart()
 {
 	Menu menuInput = MENU_NONE;
-	srand( time( NULL ) );
+	srand( (unsigned) time( NULL ) );
 	while( 1 )
 	{
 		system("cls");

@@ -2,12 +2,14 @@
 #include "GameManager.h"
 #include "Player.h"                                            
 
-static int numOfTurn;
 
 GameManager::GameManager()
+	:m_NumOfTurn(0)
 {
 	m_Attacker = new Player;
+	m_Attacker->SetName( "Attacker" );
 	m_Defender = new Player;
+	m_Defender->SetName( "Defender" );
 }
 
 
@@ -20,7 +22,7 @@ GameManager::~GameManager()
 void GameManager::InitGame()
 {
 	system( "cls" );
-	numOfTurn = 0;
+	m_NumOfTurn = 0;
 	printf_s( "Let the game begin\n" );
 	m_Attacker->InitPlayer();
 	m_Defender->InitPlayer();
@@ -28,14 +30,20 @@ void GameManager::InitGame()
 
 void GameManager::Update()
 {
-	printf( "---------------TURN %d---------------\n" , ++numOfTurn );
+	printf( "---------------TURN %d---------------\n" , ++m_NumOfTurn );
 	Position hitPosition = m_Attacker->Attack();
 	HitResult hitResult = m_Defender->SendResult( hitPosition );
-	m_Attacker->SetEnemyBoard( hitPosition , hitResult );
-	m_Defender->SetMyBoard( hitPosition , hitResult );
-
+	m_Attacker->UpdateEnemyBoard( hitPosition , hitResult );
+	m_Defender->UpdateMyBoard( hitPosition , hitResult );
+	
+	Position hitPosition2 = m_Defender->Attack();
+	HitResult hitResult2 = m_Attacker->SendResult( hitPosition2 );
+	m_Defender->UpdateEnemyBoard( hitPosition2 , hitResult2 );
+	m_Attacker->UpdateMyBoard( hitPosition2 , hitResult2 );
 	//check process
 	PrintResult( hitResult );
+	PrintResult( hitResult2 );
+
 	//m_Defender->GetMyBoard();
 	//m_Defender->PrintShips();
 }
@@ -44,7 +52,7 @@ void GameManager::PrintResult( HitResult hitResult )
 {
 	switch( hitResult )
 	{
-		case RESULT_NONE:
+		case WATER:
 			printf_s( "Result Error\n" );
 			break;
 		case HIT:
@@ -76,15 +84,11 @@ void GameManager::PrintResult( HitResult hitResult )
 void GameManager::GameStart()
 {
 	InitGame();
-	while( 1 )
+	while( !m_Defender->AllShipIsDestroyed() ||
+		   !m_Attacker->AllShipIsDestroyed()
+		 )
 	{
 		Update();
-		if( m_Defender->AllShipIsDestroyed() )
-		{
-			printf_s( "In %d turn, %s is Over\n" , numOfTurn, m_Defender->getName().c_str() );
-			fflush( stdin );
-			getchar();
-			break;
-		}
 	}
+	printf_s( "In %d ,GAME Over\n" , m_NumOfTurn );
 }

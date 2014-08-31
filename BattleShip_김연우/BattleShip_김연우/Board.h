@@ -5,15 +5,12 @@
 class Board
 {
 public:
-
 	Board();
 	~Board();
 
-	int		GetMaxWidth() {return m_Width;}
-	int		GetMaxHeight() {return m_Height;}
-	void	SetBoard( Position position , HitResult hitResult )
-	{m_Board[position.m_X][position.m_Y] = hitResult;}
-
+	int		 GetMaxWidth() {return m_Width;}
+	int		 GetMaxHeight() {return m_Height;}
+	void	 MapUpdate( Position position , HitResult hitResult );
 	void	 InitBoard();
 	bool	 IsWater( Position checkPos );
 	void	 PrintBoard();

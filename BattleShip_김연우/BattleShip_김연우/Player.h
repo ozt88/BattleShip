@@ -13,22 +13,17 @@ public:
 
 	void		InitPlayer();
 	void		SetupShips(); // random location, random direction, check if within map bounds, ships can't overlap
-	
-	void		SetMyBoard( Position position , HitResult hitResult );
-	void		SetEnemyBoard( Position position , HitResult hitResult );
-	void		GetMyBoard();
-	std::string getName(){return m_Name;}
-	void		setName( std::string name ){m_Name = name;}
-	bool		AllShipIsDestroyed();
-
-	Position	Attack();
-	HitResult	SendResult( Position position );
-	void		PrintShips();
-
-
-protected:
 	bool		IsValidPosition( Position setPos , int maxHp , Direction direction );
-	void		PlaceShip( Ship& ship , Position setPos , Direction direction );
+	void		PlaceShip( Ship* ship , Position setPos , Direction direction );
+	Position	Attack();   //ATTACKER
+	HitResult	SendResult( Position position );   //DEFENDER
+	void		UpdateMyBoard( Position position , HitResult hitResult );
+	void		UpdateEnemyBoard( Position position , HitResult hitResult );
+	void		PrintMyBoard();
+	std::string GetName(){return m_Name;}
+	void		SetName( std::string name ){m_Name = name;}
+	bool		AllShipIsDestroyed();
+	void		PrintShips();
 
 private:
 	Board*				m_MyBoard;
