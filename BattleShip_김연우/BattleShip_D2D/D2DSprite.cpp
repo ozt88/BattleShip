@@ -28,11 +28,11 @@ D2DSprite::~D2DSprite()
 
 void D2DSprite::Render()
 {
-	m_Renderer->Begin();
+	//m_Renderer->Begin();
 	m_Matrix = D2D1::Matrix3x2F::Translation( m_PosX , m_PosY );
 	m_Renderer->GetHwndRenderTarget()->SetTransform( m_Matrix );
 	m_Renderer->GetHwndRenderTarget()->DrawBitmap( m_Bitmap->GetD2D1Bitmap() , D2D1::RectF( 0, 0 , m_Width , m_Height ));
- 	m_Renderer->End();
+ 	//m_Renderer->End();
 }
 
 void D2DSprite::Clear()

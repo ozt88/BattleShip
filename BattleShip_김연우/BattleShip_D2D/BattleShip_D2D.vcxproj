@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="BattleShipApp.h" />
     <ClInclude Include="Bitmap.h" />
+    <ClInclude Include="D2DObject.h" />
     <ClInclude Include="D2DRenderer.h" />
     <ClInclude Include="D2DScene.h" />
     <ClInclude Include="D2DSprite.h" />
@@ -23,6 +24,7 @@
   <ItemGroup>
     <ClCompile Include="BattleShipApp.cpp" />
     <ClCompile Include="Bitmap.cpp" />
+    <ClCompile Include="D2DObject.cpp" />
     <ClCompile Include="D2DRenderer.cpp" />
     <ClCompile Include="D2DScene.cpp" />
     <ClCompile Include="D2DSprite.cpp" />
