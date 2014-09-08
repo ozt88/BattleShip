@@ -25,6 +25,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="BattleShip\Ship">
+      <UniqueIdentifier>{60818c0c-1b71-4b91-9ccf-ecdb9fdfb3ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BattleShip\GameObject">
+      <UniqueIdentifier>{0628480f-7400-4d7b-9f88-3a89ac0053df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BattleShip\SceneObject">
+      <UniqueIdentifier>{078d985c-2669-4a4c-8308-96422a2ed797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BattleShip\SceneObject\Sprites">
+      <UniqueIdentifier>{f4996b37-7637-45df-aba5-4ea19942364f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BattleShipApp.h">
@@ -45,14 +57,50 @@
     <ClInclude Include="GameManager.h">
       <Filter>BattleShip</Filter>
     </ClInclude>
-    <ClInclude Include="Ship.h">
-      <Filter>BattleShip</Filter>
-    </ClInclude>
     <ClInclude Include="D2DScene.h">
       <Filter>Core\Object</Filter>
     </ClInclude>
     <ClInclude Include="D2DObject.h">
       <Filter>Core\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Enum.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AirCraft.h">
+      <Filter>BattleShip\Ship</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleShip.h">
+      <Filter>BattleShip\Ship</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>BattleShip\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>BattleShip\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Cruiser.h">
+      <Filter>BattleShip\Ship</Filter>
+    </ClInclude>
+    <ClInclude Include="Destroyer.h">
+      <Filter>BattleShip\Ship</Filter>
+    </ClInclude>
+    <ClInclude Include="Ship.h">
+      <Filter>BattleShip\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>BattleShip\SceneObject</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleField.h">
+      <Filter>BattleShip\SceneObject</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>BattleShip\SceneObject</Filter>
+    </ClInclude>
+    <ClInclude Include="BFShipSprite.h">
+      <Filter>BattleShip\SceneObject\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="UIShipObject.h">
+      <Filter>BattleShip\SceneObject\Sprites</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -74,14 +122,47 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>BattleShip</Filter>
     </ClCompile>
-    <ClCompile Include="Ship.cpp">
-      <Filter>BattleShip</Filter>
-    </ClCompile>
     <ClCompile Include="D2DScene.cpp">
       <Filter>Core\Object</Filter>
     </ClCompile>
     <ClCompile Include="D2DObject.cpp">
       <Filter>Core\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraft.cpp">
+      <Filter>BattleShip\Ship</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleShip.cpp">
+      <Filter>BattleShip\Ship</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>BattleShip\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>BattleShip\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Destroyer.cpp">
+      <Filter>BattleShip\Ship</Filter>
+    </ClCompile>
+    <ClCompile Include="Cruiser.cpp">
+      <Filter>BattleShip\Ship</Filter>
+    </ClCompile>
+    <ClCompile Include="Ship.cpp">
+      <Filter>BattleShip\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>BattleShip\SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleField.cpp">
+      <Filter>BattleShip\SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>BattleShip\SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="BFShipSprite.cpp">
+      <Filter>BattleShip\SceneObject\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="UIShipObject.cpp">
+      <Filter>BattleShip\SceneObject\Sprites</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,28 +1,38 @@
 #pragma once
-class D2DSprite;
+#include "BFShipSprite.h"
+#include "UIShipObject.h"
+#include "Bitmap.h"
+#include "Enum.h"
+
 class Ship
 {
 public:
 	Ship();
-	~Ship();
+	virtual ~Ship();
 
-	void Render();
-	float GetPosX() const
-	{
-		return m_PosX;
-	}
-	void SetPosX( float val );
+	void					ShipInit();
+	void					PlaceShip( Position setPos , Direction direction );
+	void					AddPosition( Position addPos );
+	virtual HitResult		HitCheck( Position hitPos );
+	void					SetHP( int _hp );
+	int						GetHP();
+	int						GetMaxHP(){return m_MaxHP;}
+	bool					IsDestroyed();
+	bool					IsDuplicate( Position checkPos );
+	
+	BFShipSprite*			GetBFSprite() {return m_BattleSprite; }
+	UIShipObject*			GetUISprite() {return m_UISprite; }
+	void					CreateUISprite( float rowNum );
 
-	float GetPosY() const
-	{
-		return m_PosY;
-	}
-	void SetPosY( float val );
-
-
-private:
-	D2DSprite*	m_Sprite;
-	float		m_PosX;
-	float		m_PosY;
+protected:
+	BFShipSprite*			m_BattleSprite;
+	UIShipObject*			m_UISprite;
+	std::string				m_Name;
+	ShipType				m_Type;
+	std::vector <Position>	m_Pos;
+	int						m_HP;
+	int						m_MaxHP;
+	Bitmap*					m_VerticalBitmap;
+	Bitmap*					m_HorizontalBitmap;
 };
 

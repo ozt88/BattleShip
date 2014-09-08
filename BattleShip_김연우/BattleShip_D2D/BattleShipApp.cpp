@@ -40,18 +40,10 @@ void BattleShipApp::ReleaseInstance()
 
 LRESULT CALLBACK BattleShipApp::WndProc( HWND hWnd , UINT iMessage , WPARAM wParam , LPARAM lParam )
 {
-
-	HDC hdc;
-	PAINTSTRUCT ps;
-
 	switch( iMessage )
 	{
 		case WM_CREATE:
 			return 0;
-// 		case WM_PAINT:
-// 			hdc = BeginPaint( hWnd , &ps );
-// 			EndPaint( hWnd , &ps );
-// 			return 0;
 		case WM_DESTROY:
 			PostQuitMessage( 0 );
 			return 0;
@@ -75,7 +67,7 @@ void BattleShipApp::Run()
 			TranslateMessage( &message );
 			DispatchMessage( &message );
 		}
-		m_GM->Render();
+		m_GM->Run();
 	}
 }
 
@@ -89,7 +81,6 @@ bool BattleShipApp::Init( TCHAR* title , int width , int height )
 	ShowWindow( m_hWnd , SW_SHOWNORMAL );
 	m_D2DRenderer->Init();
 	m_GM = new GameManager();
-
 	return true;
 }
 

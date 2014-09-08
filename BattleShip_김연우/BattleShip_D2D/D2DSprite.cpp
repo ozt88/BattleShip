@@ -4,9 +4,10 @@
 #include "D2DRenderer.h"
 
 D2DSprite::D2DSprite()
-	:m_Renderer(nullptr) , m_Bitmap(nullptr) , m_PosX(0.f) , m_PosY(0.f)
+	:m_Bitmap(nullptr)
 {
 	m_Matrix = D2D1::Matrix3x2F::Identity();
+	m_Renderer = BattleShipApp::GetInstance()->GetD2DRenderer();
 }
 
 D2DSprite::D2DSprite( std::wstring path )
@@ -14,9 +15,8 @@ D2DSprite::D2DSprite( std::wstring path )
 	m_Matrix = D2D1::Matrix3x2F::Identity();
 	m_Renderer = BattleShipApp::GetInstance()->GetD2DRenderer();
 	m_Bitmap = new Bitmap( path );
-	_ASSERT( m_Bitmap->GetD2D1Bitmap() != nullptr );
-	m_Width = m_Bitmap->GetD2D1Bitmap()->GetSize().width;
-	m_Height = m_Bitmap->GetD2D1Bitmap()->GetSize().height;
+	m_Width = 1;
+	m_Height = 1;
 }
 
 
@@ -28,11 +28,9 @@ D2DSprite::~D2DSprite()
 
 void D2DSprite::Render()
 {
-	//m_Renderer->Begin();
-	m_Matrix = D2D1::Matrix3x2F::Translation( m_PosX , m_PosY );
+	D2DObject::Render();
 	m_Renderer->GetHwndRenderTarget()->SetTransform( m_Matrix );
 	m_Renderer->GetHwndRenderTarget()->DrawBitmap( m_Bitmap->GetD2D1Bitmap() , D2D1::RectF( 0, 0 , m_Width , m_Height ));
- 	//m_Renderer->End();
 }
 
 void D2DSprite::Clear()
@@ -44,6 +42,22 @@ void D2DSprite::Clear()
 void D2DSprite::Init()
 {
 	
+}
+
+void D2DSprite::Update()
+{
+
+}
+
+void D2DSprite::SetBitmap( std::wstring path )
+{
+	if( m_Bitmap != nullptr )
+	{
+		m_Bitmap->Release();
+	}
+	m_Bitmap = new Bitmap( path );
+	m_Width = m_Bitmap->GetD2D1Bitmap()->GetSize().width;
+	m_Height = m_Bitmap->GetD2D1Bitmap()->GetSize().height;
 }
 
 
