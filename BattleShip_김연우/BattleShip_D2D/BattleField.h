@@ -23,6 +23,8 @@ private:
 		POSY = 0,
 		WIDTH = 325,
 		HEIGTH = 325,
+		BOX_NUM_X = MAP_WIDTH ,
+		BOX_NUM_Y = MAP_HEIGHT ,
 	};
 
 };

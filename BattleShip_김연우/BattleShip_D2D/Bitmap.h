@@ -1,6 +1,6 @@
-
 #pragma once
 #include "Include.h"
+
 class Bitmap
 {
 public:

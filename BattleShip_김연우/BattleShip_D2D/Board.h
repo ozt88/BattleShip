@@ -16,7 +16,6 @@ public:
 	void					MapUpdate( Position position , HitResult hitResult );
 	void					InitBoard();
 	bool					IsWater( Position checkPos );
-	void					PrintBoard();
 	bool					IsOutOfBoard( Position checkPos );
 
 private:
@@ -26,6 +25,7 @@ private:
 	HitResult**				m_Board;
 	std::vector<D2DSprite*>	m_TileList;
 	Bitmap*					m_NormalTile;
-	Bitmap*					m_AttackedTile;
+	Bitmap*					m_MissedTile;
+	Bitmap*					m_HitTile;
 };
 

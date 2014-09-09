@@ -1,5 +1,6 @@
 #include "D2DRenderer.h"
 #include "BattleShipApp.h"
+#include "Enum.h"
 
 D2DRenderer::D2DRenderer()
 	:m_D2DFactory( nullptr ) , m_D2DRenderTarget( nullptr )
@@ -32,9 +33,35 @@ bool D2DRenderer::Init()
 		( hWnd , size , D2D1_PRESENT_OPTIONS_IMMEDIATELY ) ,
 		&m_D2DRenderTarget );
 
-	if( hr != S_OK )
+	if( SUCCEEDED( hr ) )
 	{
-		return false;
+		// Create a DirectWrite factory.
+		hr = DWriteCreateFactory(
+			DWRITE_FACTORY_TYPE_SHARED ,
+			__uuidof( m_D2DWriteFactory ) ,
+			reinterpret_cast< IUnknown ** >( &m_D2DWriteFactory )
+			);
+	}
+
+	if( SUCCEEDED( hr ) )
+	{
+		// Create a DirectWrite text format object.
+		hr = m_D2DWriteFactory->CreateTextFormat(
+			FONT_NAME ,
+			NULL ,
+			DWRITE_FONT_WEIGHT_NORMAL ,
+			DWRITE_FONT_STYLE_NORMAL ,
+			DWRITE_FONT_STRETCH_NORMAL ,
+			FONT_SIZE ,
+			L"" , //locale
+			&m_D2DTextFormat
+			);
+	}
+	if( SUCCEEDED( hr ) )
+	{
+		// Center the text horizontally and vertically.
+		m_D2DTextFormat->SetTextAlignment( DWRITE_TEXT_ALIGNMENT_CENTER );
+		m_D2DTextFormat->SetParagraphAlignment( DWRITE_PARAGRAPH_ALIGNMENT_CENTER );
 	}
 
 	return true;

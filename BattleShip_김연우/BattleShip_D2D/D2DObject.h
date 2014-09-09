@@ -17,11 +17,12 @@ public:
 	virtual D2DObject*			GetParent() {return m_Parent;}
 	virtual D2D1::Matrix3x2F	GetMatrix() {return m_Matrix;}
 
-	virtual void				Init() = 0;
+	virtual void				Init(){};
 	virtual void				Render();
 	virtual void				Update();
 	virtual void				Clear();
 
+	void						SetObject( float posX , float posY , float width , float height );
 	float						PosX() const {return m_PosX;}
 	void						PosX( float val ) {m_PosX = val;}
 	float						PosY() const {return m_PosY;}

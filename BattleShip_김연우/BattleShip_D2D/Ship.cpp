@@ -13,10 +13,12 @@ Ship::Ship()
 Ship::~Ship()
 {
 	m_BattleSprite->Clear();
+	m_UISprite->Clear();
 }
 
 void Ship::ShipInit()
 {
+	m_Pos.clear();
 	m_UISprite->Init();
 	SetHP( m_MaxHP );
 }
@@ -48,32 +50,24 @@ void Ship::PlaceShip( Position setPos , Direction direction )
 	switch( direction )
 	{
 		case UP:
-			m_BattleSprite->PosX( ( float )m_Pos.back().m_X );
-			m_BattleSprite->PosY( ( float )m_Pos.back().m_Y );
+			m_BattleSprite->SetObject( ( float )m_Pos.back().m_X , ( float )m_Pos.back().m_Y ,
+									   ( float )1 , ( float )m_MaxHP );
 			m_BattleSprite->SetBitmap( m_VerticalBitmap );
-			m_BattleSprite->Height( ( float )m_MaxHP );
-			m_BattleSprite->Width( ( float )1 );
 			break;
 		case DOWN:
-			m_BattleSprite->PosX( ( float )m_Pos.front().m_X );
-			m_BattleSprite->PosY( ( float )m_Pos.front().m_Y );
+			m_BattleSprite->SetObject( ( float )m_Pos.front().m_X , ( float )m_Pos.front().m_Y ,
+									   ( float )1 , ( float )m_MaxHP );
 			m_BattleSprite->SetBitmap( m_VerticalBitmap );
-			m_BattleSprite->Height( ( float )m_MaxHP );
-			m_BattleSprite->Width( ( float )1 );
 			break;
 		case LEFT:
-			m_BattleSprite->PosX( ( float )m_Pos.back().m_X );
-			m_BattleSprite->PosY( ( float )m_Pos.back().m_Y );
+			m_BattleSprite->SetObject( ( float )m_Pos.back().m_X , ( float )m_Pos.back().m_Y ,
+									   ( float )m_MaxHP , ( float )1 );
 			m_BattleSprite->SetBitmap( m_HorizontalBitmap );
-			m_BattleSprite->Height( ( float )1 );
-			m_BattleSprite->Width( ( float )m_MaxHP );
 			break;
 		case RIGHT:
-			m_BattleSprite->PosX( ( float )m_Pos.front().m_X );
-			m_BattleSprite->PosY( ( float )m_Pos.front().m_Y );
+			m_BattleSprite->SetObject( ( float )m_Pos.front().m_X , ( float )m_Pos.front().m_Y ,
+									   ( float )m_MaxHP , ( float )1 );
 			m_BattleSprite->SetBitmap( m_HorizontalBitmap );
-			m_BattleSprite->Height( ( float )1 );
-			m_BattleSprite->Width( ( float )m_MaxHP );
 			break;
 		default:
 			break;

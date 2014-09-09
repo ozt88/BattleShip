@@ -4,8 +4,8 @@
 
 Board::Board()
 {
-	m_Width = 8;
-	m_Height = 8;
+	m_Width = MAP_WIDTH;
+	m_Height = MAP_HEIGHT;
 	m_Board = new HitResult*[m_Height];
 	for( int i = 0; i < m_Height; i++ )
 	{
@@ -17,7 +17,8 @@ Board::Board()
 		}
 	}
 	m_NormalTile = new Bitmap(L"Resource/NormalTile.png");
-	m_AttackedTile = new Bitmap( L"Resource/AttackedTile.png" );
+	m_MissedTile = new Bitmap( L"Resource/MissedTile.png" );
+	m_HitTile = new Bitmap( L"Resource/HitTile.png" );
 }
 
 
@@ -28,6 +29,9 @@ Board::~Board()
 		delete m_Board[i];
 	}
 	delete m_Board;
+	m_MissedTile->Release();
+	m_NormalTile->Release();
+	m_HitTile->Release();
 }
 
 bool Board::IsOutOfBoard( Position checkPos )
@@ -41,25 +45,6 @@ bool Board::IsWater( Position checkPos )
 	return m_Board[checkPos.m_X][checkPos.m_Y] == WATER;
 }
 
-void Board::PrintBoard()
-{
-	for( int i = 0; i < m_Height; ++i )
-	{
-		for( int j = 0; j < m_Width; ++j )
-		{
-			if( m_Board[i][j] == WATER )
-			{
-				printf_s( " ~ " );
-			}
-			else
-			{
-				printf_s( " X " );
-			}
-		}
-		printf_s( "\n" );
-	}
-}
-
 void Board::InitBoard()
 {
 	for( int i = 0; i < m_Height; i++ )
@@ -68,19 +53,22 @@ void Board::InitBoard()
 		{
 			m_Board[i][j] = WATER;
 			m_TileList[i*m_Width + j]->SetBitmap( m_NormalTile );
-			m_TileList[i*m_Width + j]->PosX( i );
-			m_TileList[i*m_Width + j]->PosY( j );
-			m_TileList[i*m_Width + j]->Width( 1 );
-			m_TileList[i*m_Width + j]->Height( 1 );
+			m_TileList[i*m_Width + j]->SetObject( ( float )i , ( float )j , 
+												  ( float )1 , ( float )1 );
 		}
 	}
 }
 
 void Board::MapUpdate( Position position , HitResult hitResult )
 {
+	_ASSERT( hitResult != WATER );
 	m_Board[position.m_X][position.m_Y] = hitResult;
-	if( hitResult != MISS || hitResult != WATER)
+	if( hitResult == MISS )
 	{
-		m_TileList[position.m_X* m_Width + position.m_Y]->SetBitmap( m_AttackedTile );
+		m_TileList[position.m_X* m_Width + position.m_Y]->SetBitmap( m_MissedTile );
+	}
+	else
+	{
+		m_TileList[position.m_X* m_Width + position.m_Y]->SetBitmap( m_HitTile );
 	}
 }

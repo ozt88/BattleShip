@@ -2,6 +2,9 @@
 #define MAP_WIDTH 8
 #define MAP_HEIGHT 8
 #define SHIP_NUM 6
+#define FONT_NAME L"Verdana"
+#define FONT_SIZE 20
+#define BUFFERSIZE 256
 
 struct Position
 {
@@ -52,4 +55,12 @@ enum Menu
 	MENU_NONE ,
 	GAMESTART ,
 	GAMEQUIT ,
+};
+
+enum GameState
+{
+	RUNNING ,
+	END ,
+	RESET ,
+	EXIT ,
 };

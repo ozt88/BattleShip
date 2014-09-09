@@ -7,7 +7,5 @@ public:
 	GameScene();
 	~GameScene();
 
-
-
 };
 

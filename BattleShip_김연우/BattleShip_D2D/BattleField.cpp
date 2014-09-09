@@ -5,6 +5,10 @@
 BattleField::BattleField()
 	:m_BoxHeight(0.f) , m_BoxWidth(0.f)
 {
+	GetRenderer()->GetHwndRenderTarget()->
+		CreateSolidColorBrush
+		( D2D1::ColorF( D2D1::ColorF::LightSlateGray ) , &m_Brush );
+
 }
 
 
@@ -15,16 +19,9 @@ BattleField::~BattleField()
 
 void BattleField::Init()
 {
-	GetRenderer()->GetHwndRenderTarget()->
-		CreateSolidColorBrush
-		(D2D1::ColorF( D2D1::ColorF::LightSlateGray ) ,&m_Brush);
-
-	m_Width = WIDTH;
-	m_Height = HEIGTH;
-	m_PosX = POSX;
-	m_PosY = POSY;
-	m_BoxWidth = m_Width / MAP_WIDTH;
-	m_BoxHeight = m_Height / MAP_HEIGHT;
+	SetObject( POSX , POSY , WIDTH , HEIGTH );
+	m_BoxWidth = m_Width / BOX_NUM_X;
+	m_BoxHeight = m_Height / BOX_NUM_Y;
 	m_ScaleX = m_BoxWidth;
 	m_ScaleY = m_BoxHeight;
 }

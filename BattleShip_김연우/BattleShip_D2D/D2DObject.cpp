@@ -50,6 +50,11 @@ void D2DObject::Clear()
 	}
 }
 
+void D2DObject::SetObject( float posX , float posY , float width , float height )
+{
+	PosX( posX ) , PosY( posY ) , Width( width ) , Height( height );
+}
+
 void D2DObject::SetParent( D2DObject* parent )
 {
 	if( parent == nullptr )
@@ -82,5 +87,4 @@ void D2DObject::RemoveChild( D2DObject* child , bool isDelete )
 		child->Clear();
 	}
 }
-
 

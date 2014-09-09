@@ -17,6 +17,7 @@ BattleShipApp::~BattleShipApp()
 		delete m_D2DRenderer;
 		m_D2DRenderer = nullptr;
 	}
+	m_GM->ReleaseInstance();
 }
 
 
@@ -77,10 +78,10 @@ bool BattleShipApp::Init( TCHAR* title , int width , int height )
 	m_Running = true;
 
 	CreateWindow_( title , width , height );
-
 	ShowWindow( m_hWnd , SW_SHOWNORMAL );
 	m_D2DRenderer->Init();
-	m_GM = new GameManager();
+	m_GM = GameManager::GetInstance();
+	m_GM->Init();
 	return true;
 }
 

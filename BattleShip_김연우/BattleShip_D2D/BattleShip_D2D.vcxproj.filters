@@ -37,6 +37,9 @@
     <Filter Include="BattleShip\SceneObject\Sprites">
       <UniqueIdentifier>{f4996b37-7637-45df-aba5-4ea19942364f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="BattleShip\SceneObject\Objects">
+      <UniqueIdentifier>{64dfa49e-58d7-47c4-ac83-65a7c45dd22f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BattleShipApp.h">
@@ -90,17 +93,20 @@
     <ClInclude Include="GameScene.h">
       <Filter>BattleShip\SceneObject</Filter>
     </ClInclude>
-    <ClInclude Include="BattleField.h">
-      <Filter>BattleShip\SceneObject</Filter>
-    </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>BattleShip\SceneObject</Filter>
-    </ClInclude>
     <ClInclude Include="BFShipSprite.h">
       <Filter>BattleShip\SceneObject\Sprites</Filter>
     </ClInclude>
     <ClInclude Include="UIShipObject.h">
       <Filter>BattleShip\SceneObject\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleField.h">
+      <Filter>BattleShip\SceneObject\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="EndObject.h">
+      <Filter>BattleShip\SceneObject\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>BattleShip\SceneObject\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -152,17 +158,20 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>BattleShip\SceneObject</Filter>
     </ClCompile>
-    <ClCompile Include="BattleField.cpp">
-      <Filter>BattleShip\SceneObject</Filter>
-    </ClCompile>
-    <ClCompile Include="UI.cpp">
-      <Filter>BattleShip\SceneObject</Filter>
-    </ClCompile>
     <ClCompile Include="BFShipSprite.cpp">
       <Filter>BattleShip\SceneObject\Sprites</Filter>
     </ClCompile>
     <ClCompile Include="UIShipObject.cpp">
       <Filter>BattleShip\SceneObject\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="EndObject.cpp">
+      <Filter>BattleShip\SceneObject\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleField.cpp">
+      <Filter>BattleShip\SceneObject\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>BattleShip\SceneObject\Objects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -10,7 +10,6 @@ class D2DSprite
 {
 public:
 	D2DSprite();
-	D2DSprite( std::wstring path );
 	~D2DSprite();
 
 	virtual void	Init();
@@ -18,7 +17,7 @@ public:
 	virtual void	Render();
 	virtual void	Clear();
 
-	void			SetBitmap( std::wstring path );
+	Bitmap*			GetBitmap(){ return m_Bitmap;}
 	void			SetBitmap(Bitmap* bitmap) {m_Bitmap = bitmap; }
 
 protected:

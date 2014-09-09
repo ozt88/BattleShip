@@ -8,7 +8,7 @@
 
 Player::Player()
 {
-	m_Name = "Player";
+	m_Name = L"Player";
 	m_MyBoard = new Board;
 	m_EnemyBoard = new Board;
 
@@ -42,10 +42,13 @@ void Player::SetupShips()
 	int maxWidth = m_MyBoard->GetMaxWidth();
 	Position setPos;
 	Direction direction = UP;
-
 	for( auto shipIter : m_ShipList )
 	{
 		shipIter->ShipInit();
+	}
+
+	for( auto shipIter : m_ShipList )
+	{
 		do
 		{
 			direction = ( Direction )( rand() % 4 );
@@ -145,15 +148,10 @@ bool Player::AllShipIsDestroyed()
 	return true;
 }
 
-void Player::PrintMyBoard()
-{
-	m_MyBoard->PrintBoard();
-}
-
 void Player::InitPlayer()
 {
 	m_MyBoard->InitBoard();
-	//m_EnemyBoard->InitBoard();
+	m_EnemyBoard->InitBoard();
 	SetupShips();
 }
 

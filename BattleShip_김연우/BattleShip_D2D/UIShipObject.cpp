@@ -14,51 +14,64 @@ UIShipObject::UIShipObject()
 
 UIShipObject::~UIShipObject()
 {
+	m_HPBitmap->Release();
+	m_ShipSprite->Clear();
 }
 
 void UIShipObject::Create( Bitmap* bitmap , float maxHP, float posY )
 {
-	this->PosY( posY );
-	this->Width( maxHP );
+	SetObject( 0 , posY , maxHP , 1 );
 	m_ScaleX = 1;
 	m_ScaleY = m_Height;
 
 	m_ShipSprite->SetBitmap( bitmap );
-	m_ShipSprite->PosX( 0 );
-	m_ShipSprite->PosY( 0 );
-	m_ShipSprite->Width( maxHP );
-	m_ShipSprite->Height( 0.5 );
-	
-
-	D2DSprite* newHPSprite = nullptr;
-	for( float i = 0; i < maxHP; ++i )
-	{
-		newHPSprite = new D2DSprite();
-		newHPSprite->SetBitmap( m_HPBitmap );
-		newHPSprite->PosX( ( float ) i );
-		newHPSprite->PosY( ( float ) 0.6 );
-		newHPSprite->Width( ( float ) 0.8 );
-		newHPSprite->Height( ( float ) 0.2 );
-		m_HPSpriteList.push_back( newHPSprite );
-	}
+	m_ShipSprite->SetObject( 0 , 0 , maxHP , 0.5 );
+	AddChild( m_ShipSprite );
 }
 
 void UIShipObject::Hit()
 {
-	if( m_HPSpriteList.empty() )
+	if(	m_ChildList.empty() )
 	{
 		return;
 	}
 	D2DSprite* deleteSprite = m_HPSpriteList.back();
-	this->RemoveChild( deleteSprite , false );
+	m_HPSpriteList.remove( deleteSprite );
+	this->RemoveChild( deleteSprite , true );
 }
 
 void UIShipObject::Init()
 {
-	AddChild( m_ShipSprite );
+	Clear();
+	D2DSprite* newHPSprite = nullptr;
+	for( float i = 0; i < m_ShipSprite->Width(); ++i )
+	{
+		newHPSprite = new D2DSprite();
+		newHPSprite->SetBitmap( m_HPBitmap );
+		newHPSprite->SetObject( i , 0.6f , 0.8f , 0.2f );
+		m_HPSpriteList.push_back( newHPSprite );
+	}
 	for( auto hpSprite : m_HPSpriteList )
 	{
 		AddChild( hpSprite );
+	}
+}
+
+void UIShipObject::Clear()
+{
+
+	if( !m_HPSpriteList.empty() )
+	{
+		for( auto sprite : m_HPSpriteList )
+		{
+			if( sprite )
+			{
+				RemoveChild( sprite , false );
+				delete sprite;
+				sprite = nullptr;
+			}
+		}
+		m_HPSpriteList.clear();
 	}
 }
 
