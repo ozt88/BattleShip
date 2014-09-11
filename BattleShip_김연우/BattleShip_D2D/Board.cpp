@@ -6,13 +6,13 @@ Board::Board()
 {
 	m_Width = MAP_WIDTH;
 	m_Height = MAP_HEIGHT;
-	m_Board = new HitResult*[m_Height];
+	m_Board = new Box*[m_Height];
 	for( int i = 0; i < m_Height; i++ )
 	{
-		m_Board[i] = new HitResult[m_Width];
+		m_Board[i] = new Box[m_Width];
 		for( int j = 0; j < m_Width; ++j )
 		{
-			m_Board[i][j] = WATER;
+			m_Board[i][j].result = WATER;
 			m_TileList.push_back( new D2DSprite() );
 		}
 	}
@@ -42,18 +42,19 @@ bool Board::IsOutOfBoard( Position checkPos )
 
 bool Board::IsWater( Position checkPos )
 {
-	return m_Board[checkPos.m_X][checkPos.m_Y] == WATER;
+	return m_Board[checkPos.m_X][checkPos.m_Y].result == WATER;
 }
 
 void Board::InitBoard()
 {
-	for( int i = 0; i < m_Height; i++ )
+	for( int x = 0; x < m_Height; x++ )
 	{
-		for( int j = 0; j < m_Width; ++j )
+		for( int y = 0; y < m_Width; ++y )
 		{
-			m_Board[i][j] = WATER;
-			m_TileList[i*m_Width + j]->SetBitmap( m_NormalTile );
-			m_TileList[i*m_Width + j]->SetObject( ( float )i , ( float )j , 
+			m_Board[x][y].result = WATER;
+			m_Board[x][y].probability = 0;
+			m_TileList[x*m_Width + y]->SetBitmap( m_NormalTile );
+			m_TileList[x*m_Width + y]->SetObject( ( float )x , ( float )y , 
 												  ( float )1 , ( float )1 );
 		}
 	}
@@ -62,7 +63,7 @@ void Board::InitBoard()
 void Board::MapUpdate( Position position , HitResult hitResult )
 {
 	_ASSERT( hitResult != WATER );
-	m_Board[position.m_X][position.m_Y] = hitResult;
+	m_Board[position.m_X][position.m_Y].result = hitResult;
 	if( hitResult == MISS )
 	{
 		m_TileList[position.m_X* m_Width + position.m_Y]->SetBitmap( m_MissedTile );
@@ -70,5 +71,35 @@ void Board::MapUpdate( Position position , HitResult hitResult )
 	else
 	{
 		m_TileList[position.m_X* m_Width + position.m_Y]->SetBitmap( m_HitTile );
+	}
+}
+
+
+void Board::IncreaseProbablity( int x , int y , int shipSize , bool isVertical )
+{
+	int head = isVertical ? y : x;
+	int tail = head + shipSize - 1;
+	for( int i = head; i <= tail; ++i )
+	{
+		if( isVertical )
+		{
+			m_Board[x][i].probability++;
+		}
+		else
+		{
+			m_Board[i][y].probability++;
+		}
+	}
+
+}
+
+void Board::ClearProb()
+{
+	for( int x = 0; x < m_Height; x++ )
+	{
+		for( int y = 0; y < m_Width; ++y )
+		{
+			m_Board[x][y].probability = 0;
+		}
 	}
 }

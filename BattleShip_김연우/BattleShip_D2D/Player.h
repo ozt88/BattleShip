@@ -15,8 +15,11 @@ public:
 	void				SetupShips(); // random location, random direction, check if within map bounds, ships can't overlap
 	bool				IsValidPosition( Position setPos , int maxHp , Direction direction );
 	
-	Position			Attack();   //ATTACKER
-	HitResult			SendResult( Position position );   //DEFENDER
+	void				CalculateBoard();
+	bool				ShipCanOccupy( int x , int y , int shipSize , bool isVertical );
+	Position			Attack();   
+
+	HitResult			SendResult( Position position );   
 	void				UpdateMyBoard( Position position , HitResult hitResult );
 	void				UpdateEnemyBoard( Position position , HitResult hitResult );
 	Board*				GetMyBoard() {return m_MyBoard;}
@@ -31,6 +34,6 @@ private:
 	Board*				m_EnemyBoard;
 	std::list <Ship*>	m_ShipList;
 	int					m_Type;
-	std::wstring			m_Name;
+	std::wstring		m_Name;
 };
 

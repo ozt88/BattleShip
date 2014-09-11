@@ -120,8 +120,8 @@ bool EndObject::IsMouseOverRetry()
 	GetCursorPos( m_MousePointer );
 	ScreenToClient( BattleShipApp::GetInstance()->GetHWND() , m_MousePointer );
 
-	float x = m_MousePointer->x;
-	float y = m_MousePointer->y;
+	float x = ( float )m_MousePointer->x;
+	float y = ( float )m_MousePointer->y;
 
 	float startX , startY , endX , endY;
 	startX = m_PosX + m_ScaleX * m_RetryButton->PosX();
@@ -139,8 +139,8 @@ bool EndObject::IsMouseOverExit()
 	GetCursorPos( m_MousePointer );
 	ScreenToClient( BattleShipApp::GetInstance()->GetHWND() , m_MousePointer );
 
-	float x = m_MousePointer->x;
-	float y = m_MousePointer->y;
+	float x = ( float )m_MousePointer->x;
+	float y = ( float )m_MousePointer->y;
 
 	float startX , startY , endX , endY;
 	startX = m_PosX + m_ScaleX * m_ExitButton->PosX();

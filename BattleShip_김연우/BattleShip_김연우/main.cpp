@@ -7,11 +7,8 @@
 int _tmain(int argc, _TCHAR* argv[])
 {
 	srand( ( unsigned )time( NULL ) );
-// 	GameManager GM;
-// 	GM.GameStart();
-
-	Ship ship;
-	ship.SetHP( 100 );
+ 	GameManager GM;
+ 	GM.GameStart();
 	getchar();
 	return 0;
 }

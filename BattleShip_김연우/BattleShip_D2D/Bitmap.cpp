@@ -77,6 +77,7 @@ Bitmap::~Bitmap()
 	if( m_WICFactory != nullptr )
 	{
 		m_WICFactory->Release();
+		m_WICFactory = nullptr;
 	}
 }
 
@@ -85,9 +86,11 @@ void Bitmap::Release()
 	if( m_D2DBitmap != nullptr )
 	{
 		m_D2DBitmap->Release();
+		m_D2DBitmap = nullptr;
 	}
 	if( m_FmtConverter != nullptr )
 	{
 		m_FmtConverter->Release();
+		m_D2DBitmap = nullptr;
 	}
 }

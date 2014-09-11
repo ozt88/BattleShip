@@ -132,13 +132,23 @@ void Player::PrintShips()
 
 Position Player::Attack()
 {
-	Position attackPos;
-	do
+	CalculateBoard();
+	Position maxProbPos;
+	Position curPos;
+	int	maxProb = 0;
+	for( int y = 0; y < m_EnemyBoard->GetMaxHeight(); ++y )
 	{
-		attackPos.m_X = rand() % m_EnemyBoard->GetMaxWidth();
-		attackPos.m_Y = rand() % m_EnemyBoard->GetMaxHeight();
-	} while( !m_EnemyBoard->IsWater( attackPos ) );
-	return attackPos;
+		for( int x = 0; x < m_EnemyBoard->GetMaxWidth(); ++x )
+		{
+			curPos = Position( x , y );
+			if( m_EnemyBoard->IsWater( curPos ) && m_EnemyBoard->GetBoardProb( curPos ) > maxProb )
+			{
+				maxProbPos = curPos;
+				maxProb = m_EnemyBoard->GetBoardProb( maxProbPos );
+			}
+		}
+	}
+	return maxProbPos;
 }
 
 HitResult Player::SendResult( Position position )
@@ -165,6 +175,7 @@ void Player::UpdateMyBoard( Position position , HitResult hitResult )
 void Player::UpdateEnemyBoard( Position position , HitResult hitResult )
 {
 	m_EnemyBoard->MapUpdate( position , hitResult );
+	CalculateBoard();
 }
 
 bool Player::AllShipIsDestroyed()
@@ -190,5 +201,54 @@ void Player::InitPlayer()
 	m_EnemyBoard->InitBoard();
 	SetupShips();
 }
+
+void Player::CalculateBoard()
+{
+	m_EnemyBoard->ClearProb();
+	for( auto ship : m_ShipList )
+	{
+		for( int y = 0; y < m_EnemyBoard->GetMaxHeight(); ++y )
+		{
+			for( int x = 0; x < m_EnemyBoard->GetMaxWidth(); ++x )
+			{
+				if( ShipCanOccupy( x , y , ship->GetMaxHP() , false ) )
+				{
+					m_EnemyBoard->IncreaseProbablity( x , y , ship->GetMaxHP() , false );
+				}
+				if( ShipCanOccupy( x , y , ship->GetMaxHP() , true ) )
+				{
+					m_EnemyBoard->IncreaseProbablity( x , y , ship->GetMaxHP() , true );
+				}
+			}
+		}
+	}
+}
+
+bool Player::ShipCanOccupy( int x , int y , int shipSize , bool isVertical )
+{
+	int head = isVertical ? y : x;
+	int end = head + shipSize - 1;
+	int max = isVertical ? m_EnemyBoard->GetMaxHeight() : m_EnemyBoard->GetMaxWidth();
+	
+	if( end > max - 1 ) return false;
+	Position checkPos;
+	for( int i = head; i <= end; ++i )
+	{
+		checkPos = isVertical ? Position( x , i ) : Position( i , y );
+		if( m_EnemyBoard->GetBoardStatus( checkPos.m_X , checkPos.m_Y ) == MISS )
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+void Player::PrintEnemyBoard()
+{
+	m_EnemyBoard->PrintBoard();
+}
+
+
+
 
 

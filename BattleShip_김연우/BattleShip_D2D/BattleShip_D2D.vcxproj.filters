@@ -25,9 +25,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="BattleShip\Ship">
-      <UniqueIdentifier>{60818c0c-1b71-4b91-9ccf-ecdb9fdfb3ef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="BattleShip\GameObject">
       <UniqueIdentifier>{0628480f-7400-4d7b-9f88-3a89ac0053df}</UniqueIdentifier>
     </Filter>
@@ -39,6 +36,9 @@
     </Filter>
     <Filter Include="BattleShip\SceneObject\Objects">
       <UniqueIdentifier>{64dfa49e-58d7-47c4-ac83-65a7c45dd22f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BattleShip\GameObject\Ship">
+      <UniqueIdentifier>{60818c0c-1b71-4b91-9ccf-ecdb9fdfb3ef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -70,10 +70,10 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AirCraft.h">
-      <Filter>BattleShip\Ship</Filter>
+      <Filter>BattleShip\GameObject\Ship</Filter>
     </ClInclude>
     <ClInclude Include="BattleShip.h">
-      <Filter>BattleShip\Ship</Filter>
+      <Filter>BattleShip\GameObject\Ship</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>BattleShip\GameObject</Filter>
@@ -82,10 +82,10 @@
       <Filter>BattleShip\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Cruiser.h">
-      <Filter>BattleShip\Ship</Filter>
+      <Filter>BattleShip\GameObject\Ship</Filter>
     </ClInclude>
     <ClInclude Include="Destroyer.h">
-      <Filter>BattleShip\Ship</Filter>
+      <Filter>BattleShip\GameObject\Ship</Filter>
     </ClInclude>
     <ClInclude Include="Ship.h">
       <Filter>BattleShip\GameObject</Filter>
@@ -135,10 +135,10 @@
       <Filter>Core\Object</Filter>
     </ClCompile>
     <ClCompile Include="AirCraft.cpp">
-      <Filter>BattleShip\Ship</Filter>
+      <Filter>BattleShip\GameObject\Ship</Filter>
     </ClCompile>
     <ClCompile Include="BattleShip.cpp">
-      <Filter>BattleShip\Ship</Filter>
+      <Filter>BattleShip\GameObject\Ship</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>BattleShip\GameObject</Filter>
@@ -147,10 +147,10 @@
       <Filter>BattleShip\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Destroyer.cpp">
-      <Filter>BattleShip\Ship</Filter>
+      <Filter>BattleShip\GameObject\Ship</Filter>
     </ClCompile>
     <ClCompile Include="Cruiser.cpp">
-      <Filter>BattleShip\Ship</Filter>
+      <Filter>BattleShip\GameObject\Ship</Filter>
     </ClCompile>
     <ClCompile Include="Ship.cpp">
       <Filter>BattleShip\GameObject</Filter>

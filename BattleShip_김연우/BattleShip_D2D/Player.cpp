@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "GameScene.h"
 #include "Board.h"
 #include "AirCraft.h"
 #include "BattleShip.h"
@@ -17,6 +18,7 @@ Player::Player()
 	m_ShipList.push_back( new Cruiser( 3 ) );
 	m_ShipList.push_back( new Destroyer( 4 ) );
 	m_ShipList.push_back( new Destroyer( 5 ) );
+
 	//std::list<Ship*> shipListFromManager;
 	//std::list<Ship*>::iterator iterPos = m_ShipList.begin();
 	//m_ShipList.insert( iterPos , shipListFromManager.begin() , shipListFromManager.end() );
@@ -99,15 +101,26 @@ bool Player::IsValidPosition( Position setPos , int maxHp , Direction direction 
 }
 
 
+
 Position Player::Attack()
 {
-	Position attackPos;
-	do
+	CalculateBoard();
+	Position maxProbPos;
+	Position curPos;
+	int	maxProb = 0;
+	for( int y = 0; y < m_EnemyBoard->GetMaxHeight(); ++y )
 	{
-		attackPos.m_X = rand() % m_EnemyBoard->GetMaxWidth();
-		attackPos.m_Y = rand() % m_EnemyBoard->GetMaxHeight();
-	} while( !m_EnemyBoard->IsWater( attackPos ) );
-	return attackPos;
+		for( int x = 0; x < m_EnemyBoard->GetMaxWidth(); ++x )
+		{
+			curPos = Position( x , y );
+			if( m_EnemyBoard->IsWater( curPos ) && m_EnemyBoard->GetBoardProb( curPos ) > maxProb )
+			{
+				maxProbPos = curPos;
+				maxProb = m_EnemyBoard->GetBoardProb( maxProbPos );
+			}
+		}
+	}
+	return maxProbPos;
 }
 
 HitResult Player::SendResult( Position position )
@@ -155,3 +168,45 @@ void Player::InitPlayer()
 	SetupShips();
 }
 
+
+
+void Player::CalculateBoard()
+{
+	m_EnemyBoard->ClearProb();
+	for( auto ship : m_ShipList )
+	{
+		for( int y = 0; y < m_EnemyBoard->GetMaxHeight(); ++y )
+		{
+			for( int x = 0; x < m_EnemyBoard->GetMaxWidth(); ++x )
+			{
+				if( ShipCanOccupy( x , y , ship->GetMaxHP() , false ) )
+				{
+					m_EnemyBoard->IncreaseProbablity( x , y , ship->GetMaxHP() , false );
+				}
+				if( ShipCanOccupy( x , y , ship->GetMaxHP() , true ) )
+				{
+					m_EnemyBoard->IncreaseProbablity( x , y , ship->GetMaxHP() , true );
+				}
+			}
+		}
+	}
+}
+
+bool Player::ShipCanOccupy( int x , int y , int shipSize , bool isVertical )
+{
+	int head = isVertical ? y : x;
+	int end = head + shipSize - 1;
+	int max = isVertical ? m_EnemyBoard->GetMaxHeight() : m_EnemyBoard->GetMaxWidth();
+
+	if( end > max - 1 ) return false;
+	Position checkPos;
+	for( int i = head; i <= end; ++i )
+	{
+		checkPos = isVertical ? Position( x , i ) : Position( i , y );
+		if( m_EnemyBoard->GetBoardStatus( checkPos.m_X , checkPos.m_Y ) == MISS )
+		{
+			return false;
+		}
+	}
+	return true;
+}

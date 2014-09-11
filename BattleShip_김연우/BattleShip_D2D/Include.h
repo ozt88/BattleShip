@@ -10,9 +10,11 @@
 #include <wincodec.h>
 #include <time.h>
 #include <atltypes.h>
+#include <crtdbg.h>
 
 #include <iostream>
 #include <vector>
 #include <list>
 #include <string>
 #include <map>
+

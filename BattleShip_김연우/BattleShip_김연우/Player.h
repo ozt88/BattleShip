@@ -20,10 +20,14 @@ public:
 	void		UpdateMyBoard( Position position , HitResult hitResult );
 	void		UpdateEnemyBoard( Position position , HitResult hitResult );
 	void		PrintMyBoard();
+	void		PrintEnemyBoard();
 	std::string GetName(){return m_Name;}
 	void		SetName( std::string name ){m_Name = name;}
 	bool		AllShipIsDestroyed();
 	void		PrintShips();
+
+	void		CalculateBoard();
+	bool		ShipCanOccupy( int x , int y , int shipSize , bool isVertical );
 
 private:
 	Board*				m_MyBoard;

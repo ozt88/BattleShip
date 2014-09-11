@@ -16,22 +16,31 @@ GameManager::GameManager()
 	m_Player2 = new Player();
 	m_Player1->SetName( L"Player1" );
 	m_Player2->SetName( L"Player2" );
-	m_MyBattleField = new BattleField();
-	m_EnemyBattleFiled = new BattleField();
-	m_GameScene = new GameScene();
-	m_UI = new UI();
-	m_EndObject = new EndObject();
+	m_GameScene = GameScene::GetInstance();
+
+	for( auto MyTile :m_Player1->GetMyBoard()->GetTileList() )
+	{
+		m_GameScene->GetMyBattleField()->AddChild( MyTile );
+	}
+
+	for( auto EnemyTile : m_Player1->GetEnemyBoard()->GetTileList() )
+	{
+		m_GameScene->GetEnemyBattleFiled()->AddChild( EnemyTile );
+	}
+
+	for( auto ship : m_Player1->GetShipList() )
+	{
+		m_GameScene->GetMyBattleField()->AddChild( ship->GetBFSprite() );
+		m_GameScene->GetUI()->AddChild( ship->GetUISprite() );
+	}
 }
 
 
 GameManager::~GameManager()
 {
 	delete m_Player1;
-	m_MyBattleField->Clear();
-	m_EnemyBattleFiled->Clear();
-	m_GameScene->Clear();
-	m_UI->Clear();
-	m_EndObject->Clear();
+	delete m_Player2;
+	m_GameScene->ReleaseInstance();
 }
 
 void GameManager::Init()
@@ -40,30 +49,8 @@ void GameManager::Init()
 	m_NumOfTurn = 0;
 	m_Player1->InitPlayer();
 	m_Player2->InitPlayer();
-	m_UI->Init();
-	m_MyBattleField->Init();
-	m_EnemyBattleFiled->Init();
-	m_EnemyBattleFiled->PosX(m_MyBattleField->PosX() + m_MyBattleField->Width()+ m_MyBattleField->Width()/MAP_WIDTH );
+	m_GameScene->Init();
 
-	for( auto MyTile : (m_Player1->GetMyBoard())->GetTileList() )
-	{
-		m_MyBattleField->AddChild( MyTile );
-	}
-
-	for( auto EnemyTile :  m_Player1->GetEnemyBoard()->GetTileList()  )
-	{
-		m_EnemyBattleFiled->AddChild( EnemyTile );
-	}
-
-	for( auto ship : m_Player1->GetShipList() )
-	{
-		m_MyBattleField->AddChild( ship->GetBFSprite() );
-		m_UI->AddChild( ship->GetUISprite() );
-	}
-
-	m_GameScene->AddChild( m_UI );
-	m_GameScene->AddChild( m_MyBattleField );
-	m_GameScene->AddChild( m_EnemyBattleFiled );
 }
 
 void GameManager::Render()
@@ -91,23 +78,23 @@ void GameManager::Update()
 				HitResult hitResult = m_Player2->SendResult( hitPosition );
 				m_Player1->UpdateEnemyBoard( hitPosition , hitResult );
 				m_Player2->UpdateMyBoard( hitPosition , hitResult );
-				Sleep( 100 );
+				Sleep( 10 );
 
 				Position hitPosition2 = m_Player2->Attack();
 				HitResult hitResult2 = m_Player1->SendResult( hitPosition2 );
 				m_Player2->UpdateEnemyBoard( hitPosition2 , hitResult2 );
 				m_Player1->UpdateMyBoard( hitPosition2 , hitResult2 );
-				Sleep( 100 );
+				Sleep( 10 );
 			}
 
 			m_GameScene->Update();
 			break;
 		case END:
 			m_GameScene->Render();
-			m_EndObject->Update();
+			m_GameScene->GetEndObject()->Update();
 			break;
 		case RESET:
-			m_GameScene->RemoveChild( m_EndObject , false );
+			m_GameScene->RemoveChild( m_GameScene->GetEndObject() , false );
 			Init();
 			SetGameState( RUNNING );
 			break;
@@ -126,11 +113,10 @@ void GameManager::Run()
 	Render();
 }
 
-void GameManager::End( std::wstring winner )
+void GameManager::End( const std::wstring& winner )
 {
 	SetGameState( END );
-	m_EndObject->Init( winner , m_NumOfTurn );
-	m_GameScene->AddChild( m_EndObject );
+	m_GameScene->MakeEndScene( winner , m_NumOfTurn );
 }
 
 GameManager* GameManager::GetInstance()

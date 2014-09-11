@@ -41,8 +41,10 @@ void GameManager::Update()
 	m_Defender->UpdateEnemyBoard( hitPosition2 , hitResult2 );
 	m_Attacker->UpdateMyBoard( hitPosition2 , hitResult2 );
 	//check process
+	m_Attacker->PrintEnemyBoard();
 	PrintResult( hitResult );
-	PrintResult( hitResult2 );
+	getchar();
+	//PrintResult( hitResult2 );
 
 	//m_Defender->GetMyBoard();
 	//m_Defender->PrintShips();
