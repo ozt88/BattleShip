@@ -2,7 +2,7 @@
 #include "Ship.h"
 
 Ship::Ship()
-	:m_Pos() , m_Name() , m_MaxHP(0) , m_HP(0) , 
+	:m_Pos() , m_Name() , m_MaxHP(0) , m_HP(0) , m_IsDestroyed(false),
 	m_HorizontalBitmap(nullptr) , m_VerticalBitmap(nullptr)
 {
 	m_BattleSprite = new BFShipSprite();
@@ -18,6 +18,7 @@ Ship::~Ship()
 
 void Ship::ShipInit()
 {
+	SetIsDestroyed( false );
 	m_Pos.clear();
 	m_UISprite->Init();
 	SetHP( m_MaxHP );
@@ -104,6 +105,7 @@ HitResult Ship::HitCheck( Position hitPos )
 
 			if( m_HP <= 0 )
 			{
+				SetIsDestroyed( true );
 				return DESTROY;
 			}
 			else
@@ -130,10 +132,6 @@ bool Ship::IsDuplicate( Position checkPos )
 	return false;
 }
 
-bool Ship::IsDestroyed()
-{
-	return ( m_HP <= 0 );
-}
 
 
 

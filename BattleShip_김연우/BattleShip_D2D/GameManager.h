@@ -19,6 +19,7 @@ public:
 	void				Run();
 	void				Update();
 	void				End(const std::wstring& winner);
+	void				Exit();
 	void				SetGameState(GameState state) { m_GameState = state; }
 	GameState			GetGameState() {return m_GameState; }
 
@@ -30,6 +31,8 @@ private:
 	Player*					m_Player1;
 	Player*					m_Player2;
 	int						m_NumOfTurn;
+	int						m_Total;
+	int						m_GameCount;
 	GameScene*				m_GameScene;
 	GameState				m_GameState;
 };

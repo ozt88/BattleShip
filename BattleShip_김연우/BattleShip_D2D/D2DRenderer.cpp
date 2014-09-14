@@ -71,13 +71,11 @@ bool D2DRenderer::Release()
 {
 	if( m_D2DFactory != nullptr )
 	{
-		delete m_D2DFactory;
-		m_D2DFactory = nullptr;
+		SafeDelete( m_D2DFactory);
 	}
 	if( m_D2DRenderTarget != nullptr )
 	{
-		delete m_D2DRenderTarget;
-		m_D2DRenderTarget = nullptr;
+		SafeDelete( m_D2DRenderTarget );
 	}
 
 	return true;

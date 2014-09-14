@@ -26,9 +26,9 @@ Board::~Board()
 {
 	for( int i = 0; i < m_Height; ++i )
 	{
-		delete m_Board[i];
+		SafeDelete(m_Board[i]);
 	}
-	delete m_Board;
+	SafeDelete(m_Board);
 	m_MissedTile->Release();
 	m_NormalTile->Release();
 	m_HitTile->Release();
@@ -42,6 +42,10 @@ bool Board::IsOutOfBoard( Position checkPos )
 
 bool Board::IsWater( Position checkPos )
 {
+	if( !checkPos.isValid() )
+	{
+		return false;
+	}
 	return m_Board[checkPos.m_X][checkPos.m_Y].result == WATER;
 }
 
@@ -92,6 +96,31 @@ void Board::IncreaseProbablity( int x , int y , int shipSize , bool isVertical )
 	}
 
 }
+
+void Board::IncreaseProbablity( int x , int y , int shipSize , Direction dir )
+{
+	for( int i = 0; i < shipSize; ++i )
+	{
+		m_Board[x][y].probability++;
+
+		switch( dir )
+		{
+			case UP:
+				y--;
+				break;
+			case DOWN:
+				y++;
+				break;
+			case LEFT:
+				x--;
+				break;
+			case RIGHT:
+				x++;
+				break;
+		}
+	}
+}
+
 
 void Board::ClearProb()
 {

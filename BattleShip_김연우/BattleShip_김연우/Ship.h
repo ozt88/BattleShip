@@ -17,6 +17,7 @@ public:
 	void				Print();
 	bool				IsDestroyed();
 	bool				IsDuplicate( Position checkPos );
+	virtual void		PlaceShip( Position setPos , Direction direction );
 
 protected:
 	std::string				m_Name;

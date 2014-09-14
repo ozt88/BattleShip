@@ -108,6 +108,9 @@
     <ClInclude Include="UI.h">
       <Filter>BattleShip\SceneObject\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyShip.h">
+      <Filter>BattleShip\GameObject\Ship</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BattleShipApp.cpp">
@@ -172,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>BattleShip\SceneObject\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyShip.cpp">
+      <Filter>BattleShip\GameObject\Ship</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

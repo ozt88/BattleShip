@@ -54,6 +54,31 @@ HitResult Ship::HitCheck( Position hitPos )
 	return MISS;
 }
 
+void Ship::PlaceShip( Position setPos , Direction direction )
+{
+	for( int i = 0; i < GetMaxHP(); i++ )
+	{
+		AddPosition( setPos );
+
+		switch( direction )
+		{
+			case UP:
+				setPos.m_Y--;
+				break;
+			case DOWN:
+				setPos.m_Y++;
+				break;
+			case LEFT:
+				setPos.m_X--;
+				break;
+			case RIGHT:
+				setPos.m_X++;
+				break;
+		}
+	}
+
+}
+
 void Ship::Print()
 {
 	printf_s( "%s HP : %d POS :[" , m_Name.c_str() , m_HP );

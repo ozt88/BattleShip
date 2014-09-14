@@ -31,7 +31,7 @@ void UIShipObject::Create( Bitmap* bitmap , float maxHP, float posY )
 
 void UIShipObject::Hit()
 {
-	if(	m_ChildList.empty() )
+	if( m_HPSpriteList.empty() )
 	{
 		return;
 	}
@@ -67,8 +67,7 @@ void UIShipObject::Clear()
 			if( sprite )
 			{
 				RemoveChild( sprite , false );
-				delete sprite;
-				sprite = nullptr;
+				SafeDelete( sprite );
 			}
 		}
 		m_HPSpriteList.clear();

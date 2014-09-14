@@ -21,7 +21,9 @@ public:
 	void		PrintBoard();
 	bool		IsOutOfBoard( Position checkPos );
 
+	void		ScaleBoardProb(Position checkPos , int scale) { m_Board[checkPos.m_X][checkPos.m_Y].probability *= scale; }
 	int			GetBoardProb(Position checkPos) { return m_Board[checkPos.m_X][checkPos.m_Y].probability; }
+	HitResult	GetBoardStatus(Position checkPos) { return m_Board[checkPos.m_X][checkPos.m_Y].result; }
 	HitResult	GetBoardStatus(int x , int y) {return m_Board[x][y].result; }
 	void		IncreaseProbablity( int x , int y , int shipSize , bool isVertical);
 	void		ClearProb();

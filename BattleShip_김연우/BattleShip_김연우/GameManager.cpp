@@ -7,9 +7,9 @@ GameManager::GameManager()
 	:m_NumOfTurn(0)
 {
 	m_Attacker = new Player;
-	m_Attacker->SetName( "Attacker" );
+	m_Attacker->SetName( L"Attacker" );
 	m_Defender = new Player;
-	m_Defender->SetName( "Defender" );
+	m_Defender->SetName( L"Defender" );
 }
 
 
@@ -21,16 +21,17 @@ GameManager::~GameManager()
 
 void GameManager::InitGame()
 {
-	system( "cls" );
+	//system( "cls" );
 	m_NumOfTurn = 0;
-	printf_s( "Let the game begin\n" );
+	//printf_s( "Let the game begin\n" );
 	m_Attacker->InitPlayer();
 	m_Defender->InitPlayer();
 }
 
 void GameManager::Update()
 {
-	printf( "---------------TURN %d---------------\n" , ++m_NumOfTurn );
+	//printf( "---------------TURN %d---------------\n" , ++m_NumOfTurn );
+	++m_NumOfTurn;
 	Position hitPosition = m_Attacker->Attack();
 	HitResult hitResult = m_Defender->SendResult( hitPosition );
 	m_Attacker->UpdateEnemyBoard( hitPosition , hitResult );
@@ -41,9 +42,9 @@ void GameManager::Update()
 	m_Defender->UpdateEnemyBoard( hitPosition2 , hitResult2 );
 	m_Attacker->UpdateMyBoard( hitPosition2 , hitResult2 );
 	//check process
-	m_Attacker->PrintEnemyBoard();
-	PrintResult( hitResult );
-	getchar();
+// 	m_Attacker->PrintEnemyBoard();
+// 	PrintResult( hitResult );
+// 	getchar();
 	//PrintResult( hitResult2 );
 
 	//m_Defender->GetMyBoard();

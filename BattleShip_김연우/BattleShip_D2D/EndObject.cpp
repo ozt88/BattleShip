@@ -130,7 +130,7 @@ bool EndObject::IsMouseOverRetry()
 	endY = startY + m_ScaleY * m_RetryButton->Height();
 
 	return( m_MousePointer->x > startX && m_MousePointer->x < endX
-		&& m_MousePointer->y > startY && m_MousePointer->y < endX );
+		&& m_MousePointer->y > startY && m_MousePointer->y < endY );
 
 }
 
@@ -149,5 +149,5 @@ bool EndObject::IsMouseOverExit()
 	endY = startY + m_ScaleY * m_ExitButton->Height();
 
 	return( m_MousePointer->x > startX && m_MousePointer->x < endX
-			&& m_MousePointer->y > startY && m_MousePointer->y < endX );
+			&& m_MousePointer->y > startY && m_MousePointer->y < endY );
 }

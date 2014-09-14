@@ -25,6 +25,7 @@
     <ClInclude Include="D2DSprite.h" />
     <ClInclude Include="Destroyer.h" />
     <ClInclude Include="EndObject.h" />
+    <ClInclude Include="EnemyShip.h" />
     <ClInclude Include="Enum.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameScene.h" />
@@ -49,6 +50,7 @@
     <ClCompile Include="D2DSprite.cpp" />
     <ClCompile Include="Destroyer.cpp" />
     <ClCompile Include="EndObject.cpp" />
+    <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />

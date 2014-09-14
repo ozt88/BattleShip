@@ -19,8 +19,8 @@ UI::~UI()
 void UI::Init()
 {
 	SetObject( POSX , POSY , WIDTH , HEIGTH );
-	m_BoxWidth = m_Width / SHIP_NUM;
-	m_BoxHeight = m_Height / SHIP_NUM;
+	m_BoxWidth = m_Width / ( SHIP_NUM + 1 );
+	m_BoxHeight = m_Height / ( SHIP_NUM + 1 );
 	m_ScaleX = m_BoxWidth;
 	m_ScaleY = m_BoxHeight;
 }

@@ -36,9 +36,6 @@
     <ClInclude Include="Player.h">
       <Filter>GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Ship.h">
-      <Filter>Ships</Filter>
-    </ClInclude>
     <ClInclude Include="AirCraft.h">
       <Filter>Ships</Filter>
     </ClInclude>
@@ -53,6 +50,9 @@
     </ClInclude>
     <ClInclude Include="Engine.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Ship.h">
+      <Filter>GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -71,9 +71,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Ship.cpp">
-      <Filter>Ships</Filter>
-    </ClCompile>
     <ClCompile Include="Cruiser.cpp">
       <Filter>Ships</Filter>
     </ClCompile>
@@ -88,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Ship.cpp">
+      <Filter>GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

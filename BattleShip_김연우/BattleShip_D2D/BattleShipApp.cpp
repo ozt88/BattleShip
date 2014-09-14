@@ -14,8 +14,7 @@ BattleShipApp::~BattleShipApp()
 {
 	if( m_D2DRenderer == nullptr )
 	{
-		delete m_D2DRenderer;
-		m_D2DRenderer = nullptr;
+		SafeDelete(m_D2DRenderer);
 	}
 	m_GM->ReleaseInstance();
 }
@@ -34,8 +33,7 @@ void BattleShipApp::ReleaseInstance()
 {
 	if( m_Instance != nullptr )
 	{
-		delete m_Instance;
-		m_Instance = nullptr;
+		SafeDelete(m_Instance);
 	}
 }
 
