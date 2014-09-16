@@ -1,6 +1,6 @@
 #pragma once
 #include "D2DObject.h"
-#include "D2DSprite.h"
+#include "BFShipSprite.h"
 #include "Bitmap.h"
 
 class UIShipObject :
@@ -11,12 +11,13 @@ public:
 	~UIShipObject();
 
 	void Init();
-	void Create( Bitmap* bitmap , float maxHP , float posY );
+	void Create( Bitmap* NormalBitmap , Bitmap* DestroyedBitmap ,float maxHP , float posY );
 	void Hit();
 	void Clear();
+	BFShipSprite* GetShipSprite() {return m_ShipSprite; }
 
 private:
-	D2DSprite*				m_ShipSprite;
+	BFShipSprite*			m_ShipSprite;
 	std::list<D2DSprite*>	m_HPSpriteList;
 	Bitmap*					m_HPBitmap;
 };

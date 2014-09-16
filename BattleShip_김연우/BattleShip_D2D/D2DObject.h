@@ -36,6 +36,7 @@ public:
 	float						GetCenterX() { return (m_PosX + m_Width)/2; }
 	float						GetCenterY() { return (m_PosY + m_Height)/2; }
 	D2DRenderer*				GetRenderer() {return m_Renderer;}
+	std::list<D2DObject*>		GetChildList() {return m_ChildList;}
 
 protected:
 	std::list<D2DObject*>		m_ChildList;

@@ -366,7 +366,7 @@ Position Player::Attack()
 {
 	Position maxProbPos = Position( 0 , 0 );
 	std::vector<Position> maxPosVector;
-	if( !m_IsTargetMode )
+	if( m_IsTargetMode == false)
 	{
 		CalculateBoard();
 		Position curPos;

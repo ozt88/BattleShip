@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "BattleField.h"
 #include "UI.h"
+#include "EnemyUI.h"
 #include "EndObject.h"
 
 GameScene* GameScene::m_Instance = nullptr;
@@ -10,11 +11,13 @@ GameScene::GameScene()
 	m_EnemyBattleFiled = new BattleField();
 	m_MyBattleField = new BattleField();
 	m_UI = new UI();
+	m_EnemyUI = new EnemyUI();
 	m_EndObject = new EndObject();
 
 	this->AddChild( m_EnemyBattleFiled );
 	this->AddChild( m_MyBattleField );
 	this->AddChild( m_UI );
+	this->AddChild( m_EnemyUI );
 }
 
 
@@ -23,6 +26,7 @@ GameScene::~GameScene()
 	m_MyBattleField->Clear();
 	m_EnemyBattleFiled->Clear();
 	m_UI->Clear();
+	m_EnemyUI->Clear();
 	m_EndObject->Clear();
 }
 
@@ -45,9 +49,11 @@ void GameScene::ReleaseInstance()
 
 void GameScene::Init()
 {
-	m_MyBattleField->Init();
-	m_EnemyBattleFiled->Init();
-	m_UI->Init();
+	for( auto child : m_ChildList )
+	{
+		child->Init();
+	}
+
 	m_EnemyBattleFiled->PosX( m_MyBattleField->PosX() + m_MyBattleField->Width() + m_MyBattleField->Width() / MAP_WIDTH );
 }
 

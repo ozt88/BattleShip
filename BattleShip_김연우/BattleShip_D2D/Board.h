@@ -30,7 +30,7 @@ public:
 	HitResult				GetBoardStatus(Position checkPos) { return m_Board[checkPos.m_X][checkPos.m_Y].result; }
 	
 	void					IncreaseProbablity( int x , int y , int shipSize , bool isVertical);
-	void					IncreaseProbablity( int x , int y , int shipSize , Direction dir );
+	void					IncreaseProbablity( int x , int y , int shipSize , MyDirection dir );
 	void					ClearProb();
 
 private:

@@ -7,6 +7,7 @@ class UI;
 class GameScene;
 class Player;
 class EndObject;
+
 class GameManager
 {
 public:
@@ -18,10 +19,14 @@ public:
 	void				Render();
 	void				Run();
 	void				Update();
+	void				UpdateInNetwork();
 	void				End(const std::wstring& winner);
+	void				End();
 	void				Exit();
 	void				SetGameState(GameState state) { m_GameState = state; }
 	GameState			GetGameState() {return m_GameState; }
+	void				GetPacket();
+	HitResult			AttackResultPassing( AttackResultTypes result );
 
 private:
 	GameManager();
@@ -35,29 +40,10 @@ private:
 	int						m_GameCount;
 	GameScene*				m_GameScene;
 	GameState				m_GameState;
+
+
+	Network*				m_Network;
+	std::wstring			m_MyName;
+
 };
 
-
-// 
-// #pragma once
-// #include "Include.h"
-// 
-// class Player;
-// 
-// class GameManager
-// {
-// public:
-// 	GameManager();
-// 	~GameManager();
-// 
-// 	void InitGame();
-// 	void Update();
-// 	void PrintResult( HitResult hitResult );
-// 	void GameStart();
-// 
-// private:
-// 	Player* m_Attacker;
-// 	Player* m_Defender;
-// 	int		m_NumOfTurn;
-// };
-// 

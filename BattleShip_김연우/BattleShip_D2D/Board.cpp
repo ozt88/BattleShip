@@ -97,7 +97,7 @@ void Board::IncreaseProbablity( int x , int y , int shipSize , bool isVertical )
 
 }
 
-void Board::IncreaseProbablity( int x , int y , int shipSize , Direction dir )
+void Board::IncreaseProbablity( int x , int y , int shipSize , MyDirection dir )
 {
 	for( int i = 0; i < shipSize; ++i )
 	{

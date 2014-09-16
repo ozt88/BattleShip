@@ -82,7 +82,7 @@ void EndObject::Render()
 
 void EndObject::Update()
 {
-	if( GameManager::GetInstance()->GetGameState() == END )
+	if( GameManager::GetInstance()->GetGameState() == GAME_END )
 	{
 		if( IsMouseOverRetry() && m_RetryButton->GetBitmap() != m_RetryMarkedBitmap )
 		{
@@ -103,7 +103,7 @@ void EndObject::Update()
 		}
 		else if( IsMouseOverExit() && GetKeyState( VK_LBUTTON ) & 0x8000 )
 		{
-			GameManager::GetInstance()->SetGameState( EXIT );
+			GameManager::GetInstance()->SetGameState( QUIT_GAME );
 		}
 		else if( !IsMouseOverExit() && m_ExitButton->GetBitmap() != m_ExitUnmarkedBitmap )
 		{

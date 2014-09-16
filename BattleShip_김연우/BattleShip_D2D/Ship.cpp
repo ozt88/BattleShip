@@ -2,29 +2,35 @@
 #include "Ship.h"
 
 Ship::Ship()
-	:m_Pos() , m_Name() , m_MaxHP(0) , m_HP(0) , m_IsDestroyed(false),
-	m_HorizontalBitmap(nullptr) , m_VerticalBitmap(nullptr)
+	:m_Pos() , m_Name() , m_MaxHP(0) , m_HP(0) , 
+	m_HorizontalBitmap(nullptr) , m_VerticalBitmap(nullptr) , m_DestroyedBitmap(nullptr)
 {
 	m_BattleSprite = new BFShipSprite();
+	m_EnemyUISprite = new BFShipSprite();
 	m_UISprite = new UIShipObject();
 }
 
 
 Ship::~Ship()
 {
+	m_HorizontalBitmap->Release();
+	m_VerticalBitmap->Release();
+	m_DestroyedBitmap->Release();
+
 	m_BattleSprite->Clear();
 	m_UISprite->Clear();
+	m_EnemyUISprite->Clear();
 }
 
 void Ship::ShipInit()
 {
-	SetIsDestroyed( false );
 	m_Pos.clear();
 	m_UISprite->Init();
 	SetHP( m_MaxHP );
+	m_IsDestroyed = false;
 }
 
-void Ship::PlaceShip( Position setPos , Direction direction )
+void Ship::PlaceShip( Position setPos , MyDirection direction )
 {
 	for( int i = 0; i < GetMaxHP(); i++ )
 	{
@@ -105,7 +111,8 @@ HitResult Ship::HitCheck( Position hitPos )
 
 			if( m_HP <= 0 )
 			{
-				SetIsDestroyed( true );
+				m_IsDestroyed = true;
+				m_UISprite->GetShipSprite()->SetDestroy( true );
 				return DESTROY;
 			}
 			else

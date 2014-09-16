@@ -8,7 +8,7 @@ UIShipObject::UIShipObject()
 	m_PosX = 0;
 	m_PosY = 0;
 	m_HPBitmap = new Bitmap( L"Resource/drum2.png" );
-	m_ShipSprite = new D2DSprite();
+	m_ShipSprite = new BFShipSprite();
 }
 
 
@@ -18,13 +18,14 @@ UIShipObject::~UIShipObject()
 	m_ShipSprite->Clear();
 }
 
-void UIShipObject::Create( Bitmap* bitmap , float maxHP, float posY )
+void UIShipObject::Create( Bitmap* normalBitmap , Bitmap* destroyedBitmap , float maxHP, float posY )
 {
 	SetObject( 0 , posY , maxHP , 1 );
 	m_ScaleX = 1;
 	m_ScaleY = m_Height;
 
-	m_ShipSprite->SetBitmap( bitmap );
+	m_ShipSprite->SetNormalBitmap( normalBitmap );
+	m_ShipSprite->SetDestroyedBitmap( destroyedBitmap );
 	m_ShipSprite->SetObject( 0 , 0 , maxHP , 0.5 );
 	AddChild( m_ShipSprite );
 }
@@ -43,6 +44,7 @@ void UIShipObject::Hit()
 void UIShipObject::Init()
 {
 	Clear();
+	m_ShipSprite->Init();
 	D2DSprite* newHPSprite = nullptr;
 	for( float i = 0; i < m_ShipSprite->Width(); ++i )
 	{

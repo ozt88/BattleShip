@@ -62,7 +62,6 @@ void BattleShipApp::Run()
 			{
 				return;
 			}
-
 			TranslateMessage( &message );
 			DispatchMessage( &message );
 		}
@@ -80,6 +79,7 @@ bool BattleShipApp::Init( TCHAR* title , int width , int height )
 	m_D2DRenderer->Init();
 	m_GM = GameManager::GetInstance();
 	m_GM->Init();
+
 	return true;
 }
 

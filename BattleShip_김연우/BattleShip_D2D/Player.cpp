@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "GameScene.h"
+#include "EnemyUI.h"
 #include "Board.h"
 #include "AirCraft.h"
 #include "BattleShip.h"
@@ -10,9 +11,9 @@
 Player::Player()
 {
 	m_Name = L"Player";
-	m_MyBoard = new Board;
-	m_EnemyBoard = new Board;
-
+	m_MyBoard = new Board();
+	m_EnemyBoard = new Board();
+	m_ShipData = new ShipData();
 	m_MyShipList.push_back( new AirCraft( 1 ) );
 	m_MyShipList.push_back( new BattleShip( 2 ) );
 	m_MyShipList.push_back( new Cruiser( 3 ) );
@@ -64,7 +65,7 @@ Player::~Player()
 void Player::SetupShips()
 {
 	Position setPos;
-	Direction direction = UP;
+	MyDirection direction = UP;
 	for( auto shipIter : m_MyShipList )
 	{
 		shipIter->ShipInit();
@@ -74,7 +75,7 @@ void Player::SetupShips()
 	{
 		do
 		{
-			direction = ( Direction )( rand() % 4 );
+			direction = ( MyDirection )( rand() % 4 );
 			setPos.m_X = rand() % MAP_WIDTH;
 			setPos.m_Y = rand() % MAP_HEIGHT;
 		} while( !IsValidPosition( setPos , shipIter->GetMaxHP() , direction ) );
@@ -84,7 +85,7 @@ void Player::SetupShips()
 
 
 
-bool Player::IsValidPosition( const Position& setPos , int maxHp , const Direction& direction )
+bool Player::IsValidPosition( const Position& setPos , int maxHp , const MyDirection& direction )
 {
 	Position curPos = setPos;
 	for( int i = 0; i < maxHp; i++ )
@@ -111,9 +112,11 @@ bool Player::IsValidPosition( const Position& setPos , int maxHp , const Directi
 Position Player::Attack()
 {
 	Position maxProbPos = Position( 0 , 0 );
-	if( !m_IsTargetMode )
+	//타겟모드와 헌트모드로 구분
+	//하나 맞췄으면 타겟 맞춘게 없으면 헌트
+	if( m_AImode == HUNT)
 	{
-		CalculateBoard();
+		CalculateBoard();	//일단 맵의 확률을 계산
 		Position curPos;
 		int	maxProb = 0;
 		for( int y = 0; y < MAP_HEIGHT; ++y )
@@ -128,25 +131,10 @@ Position Player::Attack()
 				}
 			}
 		}
-// 		maxPosVector.push_back( maxProbPos );
-// 		for( int y = 0; y < MAP_HEIGHT; ++y )
-// 		{
-// 			for( int x = 0; x < MAP_WIDTH; ++x )
-// 			{
-// 				curPos = Position( x , y );
-// 				if( maxProb == m_EnemyBoard->GetBoardProb(curPos))
-// 				{
-// 					maxPosVector.push_back( Position( x , y ));
-// 				}
-// 			}
-// 		}
-// 		if( maxPosVector.size() > 1 ) maxProbPos = maxPosVector[rand() % maxPosVector.size()];
-// 		maxPosVector.clear();
-// 		HitResult result = m_EnemyBoard->GetBoardStatus( maxProbPos );
-// 		_ASSERT( result == WATER );
 	}
 	else
 	{
+		//타겟을 추적한다.
 		maxProbPos = FindTarget( m_EnemyBoard->GetBoardStatus( m_LastHit.m_X, m_LastHit.m_Y ) );
 	}
 
@@ -174,18 +162,21 @@ void Player::UpdateMyBoard( const Position& position , const HitResult& hitResul
 	m_MyBoard->MapUpdate( position , hitResult );
 }
 
+
+
 void Player::UpdateEnemyBoard( const Position& position , const HitResult& hitResult )
 {
 	m_EnemyBoard->MapUpdate( position , hitResult );
+	GameScene* GM =	GameScene::GetInstance();
 	int destroySize = 0;
 	m_LastHit = position;
 
 	if( hitResult == HIT )
 	{
-		if( !m_IsTargetMode )
+		if( m_AImode == HUNT)
 		{
 			m_Origin = position;
-			m_IsTargetMode = true;
+			m_AImode = TARGET;
 			m_FindDir = FindBestNeighbor(m_Origin);
 		}
 	}
@@ -194,20 +185,21 @@ void Player::UpdateEnemyBoard( const Position& position , const HitResult& hitRe
 		switch( hitResult )
 		{
 			case DESTROY_AIRCRAFT:
-				destroySize = 5;
+				destroySize = ShipSize::AIRCRAFT_SIZE;
 				break;
 			case DESTROY_BATTLESHIP:
-				destroySize = 4;
+				destroySize = ShipSize::BATTLESHIP_SIZE;
 				break;
 			case DESTROY_CRUISER:
-				destroySize = 3;
+				destroySize = ShipSize::CRUISER_SIZE;
 				break;
 			case DESTROY_DESTROYER:
-				destroySize = 2;
+				destroySize = ShipSize::DESTROYER_SIZE;
 				break;
 			default:
 				break;
 		}
+		GM->GetEnemyUI()->MakeDestroySprite( destroySize );
 		for( auto enemyShip : m_EnemyShipList )
 		{
 			if( enemyShip->m_Size == destroySize)
@@ -236,13 +228,13 @@ void Player::InitPlayer()
 	m_EnemyBoard->InitBoard();
 	SetupShips();
 	InitEnemyShips();
-	m_IsTargetMode = false;
+	MakeShipData();
+	m_AImode = HUNT;
 	m_LastHit = Position();
 	m_Origin = Position();
 	m_FindDir = UP;
 	m_DestroyPosList.clear();
 	m_HitPosList.clear();
-
 }
 
 
@@ -317,7 +309,7 @@ bool Player::ShipCanOccupy( int x , int y , int shipSize , bool isVertical )
 }
 
 
-Direction Player::FindBestNeighbor( const Position& pos )
+MyDirection Player::FindBestNeighbor( const Position& pos )
 {
 	std::vector<Position> neighbors;
 	Position neighbor = pos;
@@ -325,21 +317,20 @@ Direction Player::FindBestNeighbor( const Position& pos )
 	int bestProb = 0;
 	for( int i = 0; i < DIR_MAX; ++i )
 	{
-		neighbors.push_back( neighbor.dirPos((Direction)i));
+		neighbors.push_back( neighbor.dirPos((MyDirection)i));
 	}
 
 	for( size_t i = 0; i < neighbors.size(); ++i )
 	{
 		Position curPos = neighbors[i];
-		if( curPos.isValid()
-			&& m_EnemyBoard->GetBoardProb( curPos ) > bestProb )
+		if( curPos.isValid() && m_EnemyBoard->GetBoardProb( curPos ) > bestProb )
 		{
 			bestDir = i;
 			bestProb = m_EnemyBoard->GetBoardProb( curPos );
 			m_EnemyBoard->ScaleBoardProb( curPos , 2 );
 		}
 	}
-	return ( Direction )bestDir;
+	return ( MyDirection )bestDir;
 }
 
 Position Player::FindTarget( const HitResult& hitresult )
@@ -354,16 +345,16 @@ Position Player::FindTarget( const HitResult& hitresult )
 			resultPos = MissFind();
 			break;
 		case DESTROY_AIRCRAFT:
-			resultPos = DestroyFind( 5 );
+			resultPos = DestroyFind( ShipSize::AIRCRAFT_SIZE );
 			break;
 		case DESTROY_BATTLESHIP:
-			resultPos = DestroyFind( 4 );
+			resultPos = DestroyFind( ShipSize::BATTLESHIP_SIZE );
 			break;
 		case DESTROY_CRUISER:
-			resultPos = DestroyFind( 3 );
+			resultPos = DestroyFind( ShipSize::CRUISER_SIZE );
 			break;
 		case DESTROY_DESTROYER:
-			resultPos = DestroyFind( 2 );
+			resultPos = DestroyFind( ShipSize::DESTROYER_SIZE );
 			break;
 		default:
 			break;
@@ -400,7 +391,7 @@ Position Player::MissFind()
 	
 	if( !findNextPos )
 	{
-		m_IsTargetMode = false;
+		m_AImode = HUNT;
 		nextPos = Attack();
 	}
 
@@ -415,13 +406,13 @@ Position Player::DestroyFind( int size )
 {
 	m_DestroyPosList.push_back( m_LastHit );
 	Position curPos = m_LastHit;
-	Direction destroyDir = m_FindDir;
+	MyDirection destroyDir = m_FindDir;
 	FindDestroyDir( curPos , size , &destroyDir );
 	RemoveDestroyedPath( curPos , size , destroyDir );
 
 	if( m_HitPosList.empty() )
 	{
-		m_IsTargetMode = false;
+		m_AImode = HUNT;
 		return Attack();
 	}
 	else
@@ -431,11 +422,11 @@ Position Player::DestroyFind( int size )
 	}
 }
 
-bool Player::FindDestroyDir( const Position& position , int size , Direction* dir )
+bool Player::FindDestroyDir( const Position& position , int size , MyDirection* dir )
 {
 	bool result = false;
 	Position checkPos;
-	Direction checkDir;
+	MyDirection checkDir;
 	//일단 역방향으로 준다.
 	switch( m_FindDir )
 	{
@@ -455,7 +446,7 @@ bool Player::FindDestroyDir( const Position& position , int size , Direction* di
 			break;
 	}
 
-	for( int count = 0; count < DIR_MAX; ++count , checkDir = ( Direction )( checkDir + 1 ) )
+	for( int count = 0; count < DIR_MAX; ++count , checkDir = ( MyDirection )( checkDir + 1 ) )
 	{
 		checkPos = position;
 		result = false;
@@ -489,7 +480,7 @@ bool Player::FindDestroyDir( const Position& position , int size , Direction* di
 	return result;
 }
 
-bool Player::RemoveDestroyedPath( const Position& position , int size , const Direction& dir )
+bool Player::RemoveDestroyedPath( const Position& position , int size , const MyDirection& dir )
 {
 	Position deletePos = position;
 	m_DestroyPosList.remove( deletePos );
@@ -501,12 +492,12 @@ bool Player::RemoveDestroyedPath( const Position& position , int size , const Di
 	return true;
 }
 
-bool Player::CheckMissDir(Position* nextPos)
+bool Player::CheckMissDir(OUT Position* nextPos)
 {
 	bool isValid = false;
 	for( int i = 0; i < DIR_MAX; ++i )
 	{
-		m_FindDir = ( Direction )( ( m_FindDir + 1 ) % DIR_MAX );
+		m_FindDir = ( MyDirection )( ( m_FindDir + 1 ) % DIR_MAX );
 		*nextPos = m_Origin.dirPos( m_FindDir );
 		if( nextPos->isValid() && m_EnemyBoard->IsWater( *nextPos ) )
 		{
@@ -516,5 +507,59 @@ bool Player::CheckMissDir(Position* nextPos)
 	}
 
 	return isValid;
+}
+
+void Player::MakeShipData()
+{
+	Coord curCoord;
+	bool isFirstDestroyer = true;
+	for( auto ship : m_MyShipList )
+	{
+		MyShipType type = ship->GetShipType();
+		int i = 0;
+		switch( type )
+		{
+			
+			case DESTROYER:
+				for( auto pos : ship->GetPos() )
+				{
+					curCoord = Coord( pos.m_X , pos.m_Y );
+					if( isFirstDestroyer )
+					{
+						m_ShipData->SetShipCoord( MD_DESTROYER1 , i++ , curCoord);
+					}
+					else
+					{
+						m_ShipData->SetShipCoord( MD_DESTROYER2 , i++ , curCoord );
+					}
+				}
+				isFirstDestroyer = false;
+				break;
+			case CRUISER:
+				for( auto pos : ship->GetPos() )
+				{
+					curCoord = Coord( pos.m_X , pos.m_Y );
+					m_ShipData->SetShipCoord( MD_CRUISER , i++ , curCoord );
+				}
+				break;
+			case BATTLESHIP:
+				for( auto pos : ship->GetPos() )
+				{
+					curCoord = Coord( pos.m_X , pos.m_Y );
+					m_ShipData->SetShipCoord( MD_BATTLESHIP , i++ , curCoord );
+				}
+				break;
+			case AIRCRAFT:
+				for( auto pos : ship->GetPos() )
+				{
+					curCoord = Coord( pos.m_X , pos.m_Y );
+					m_ShipData->SetShipCoord( MD_AIRCRAFT , i++ , curCoord );
+				}
+				break;
+			default:
+				break;
+		}
+	}
+
 }
 

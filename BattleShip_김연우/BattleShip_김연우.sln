@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BattleShip_D2D", "BattleShi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BattleShip", "BattleShip_김연우\BattleShip_김연우.vcxproj", "{5E59EE5A-D50C-4A7C-BF7B-68D883CBC6EC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj", "{FE04DA52-8D85-4B2A-A4D8-6FCBE0686C25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +23,10 @@ Global
 		{5E59EE5A-D50C-4A7C-BF7B-68D883CBC6EC}.Debug|Win32.Build.0 = Debug|Win32
 		{5E59EE5A-D50C-4A7C-BF7B-68D883CBC6EC}.Release|Win32.ActiveCfg = Release|Win32
 		{5E59EE5A-D50C-4A7C-BF7B-68D883CBC6EC}.Release|Win32.Build.0 = Release|Win32
+		{FE04DA52-8D85-4B2A-A4D8-6FCBE0686C25}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FE04DA52-8D85-4B2A-A4D8-6FCBE0686C25}.Debug|Win32.Build.0 = Debug|Win32
+		{FE04DA52-8D85-4B2A-A4D8-6FCBE0686C25}.Release|Win32.ActiveCfg = Release|Win32
+		{FE04DA52-8D85-4B2A-A4D8-6FCBE0686C25}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

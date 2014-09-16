@@ -1,13 +1,17 @@
 #pragma once
 #define MAP_WIDTH 8
 #define MAP_HEIGHT 8
+#define MAP_SIZE (MAP_WIDTH * MAP_HEIGHT)
 #define SHIP_NUM 5
 #define FONT_NAME L"Verdana"
 #define FONT_SIZE 20
 #define BUFFERSIZE 256
+#define SERVERIPPORT "10.73.42.117", 9001
+//#define SERVERIPPORT "10.73.43.26", 9001
 
 
-enum Direction
+
+enum MyDirection
 {
 	UP ,
 	DOWN ,
@@ -28,13 +32,21 @@ enum HitResult
 	DESTROY_DESTROYER ,
 };
 
-enum ShipType
+enum MyShipType
 {
 	DESTROYER ,
 	CRUISER ,
 	BATTLESHIP ,
 	AIRCRAFT ,
 	SHIPTYPE_MAX,
+};
+
+enum ShipSize
+{
+	DESTROYER_SIZE = 2,
+	CRUISER_SIZE ,
+	BATTLESHIP_SIZE ,
+	AIRCRAFT_SIZE ,
 };
 
 enum Menu
@@ -46,12 +58,27 @@ enum Menu
 
 enum GameState
 {
+	WAIT,
+	ATTACK ,
+	RESULT ,
 	RUNNING ,
-	END ,
 	RESET ,
-	EXIT ,
+	GAME_END ,
+	GAME_OVER ,
+	QUIT_GAME ,
 };
 
+enum AImode
+{
+	HUNT,
+	TARGET,
+};
+
+enum GameMode
+{
+	SOLO,
+	NETWORK,	
+};
 
 struct Position
 {
@@ -86,7 +113,8 @@ struct Position
 		return ( m_Y < MAP_HEIGHT && 0 <= m_Y && m_X < MAP_WIDTH && 0 <= m_X );
 	}
 
-	Position dirPos( Direction dir )
+
+	Position dirPos( MyDirection dir )   //현재 위치에서 dir방향에 있는 위치를 리턴 
 	{
 		Position result;
 		switch( dir )
@@ -116,3 +144,14 @@ struct Position
 		}
 	}
 };
+
+struct EnemyShip
+{
+	EnemyShip( int size , int num )
+	{
+		m_Size = size , m_Num = num;
+	}
+	int m_Size;
+	int m_Num;
+};
+
