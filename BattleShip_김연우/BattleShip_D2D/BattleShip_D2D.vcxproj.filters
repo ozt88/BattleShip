@@ -102,14 +102,17 @@
     <ClInclude Include="BattleField.h">
       <Filter>BattleShip\SceneObject\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="EndObject.h">
-      <Filter>BattleShip\SceneObject\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>BattleShip\SceneObject\Objects</Filter>
     </ClInclude>
     <ClInclude Include="EnemyUI.h">
       <Filter>BattleShip\SceneObject\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractiveObject.h">
+      <Filter>BattleShip\SceneObject\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>BattleShip\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -167,9 +170,6 @@
     <ClCompile Include="UIShipObject.cpp">
       <Filter>BattleShip\SceneObject\Sprites</Filter>
     </ClCompile>
-    <ClCompile Include="EndObject.cpp">
-      <Filter>BattleShip\SceneObject\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="BattleField.cpp">
       <Filter>BattleShip\SceneObject\Objects</Filter>
     </ClCompile>
@@ -178,6 +178,12 @@
     </ClCompile>
     <ClCompile Include="EnemyUI.cpp">
       <Filter>BattleShip\SceneObject\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractiveObject.cpp">
+      <Filter>BattleShip\SceneObject\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>BattleShip\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

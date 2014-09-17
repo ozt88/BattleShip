@@ -5,7 +5,7 @@ Ship::Ship()
 	:m_Pos() , m_Name() , m_MaxHP(0) , m_HP(0) , 
 	m_HorizontalBitmap(nullptr) , m_VerticalBitmap(nullptr) , m_DestroyedBitmap(nullptr)
 {
-	m_BattleSprite = new BFShipSprite();
+	m_BattleSprite = new D2DSprite();
 	m_EnemyUISprite = new BFShipSprite();
 	m_UISprite = new UIShipObject();
 }

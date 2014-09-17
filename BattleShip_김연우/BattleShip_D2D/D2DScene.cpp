@@ -25,5 +25,4 @@ void D2DScene::Render()
 	m_Renderer->Clear();
 	D2DObject::Render();
 	m_Renderer->End();
-
 }

@@ -23,7 +23,7 @@ public:
 	bool							IsDestroyed() {return m_IsDestroyed;}
 	bool							IsDuplicate( Position checkPos );
 
-	BFShipSprite*					GetBFSprite() {return m_BattleSprite; }
+	D2DSprite*						GetBFSprite() {return m_BattleSprite; }
 	UIShipObject*					GetUISprite() {return m_UISprite; }
 	BFShipSprite*					GetEnemyUISprite() {return m_EnemyUISprite;}
 	void							CreateUISprite( float rowNum );
@@ -36,7 +36,7 @@ protected:
 	int								m_MaxHP;
 	bool							m_IsDestroyed;
 
-	BFShipSprite*					m_BattleSprite;
+	D2DSprite*						m_BattleSprite;
 	BFShipSprite*					m_EnemyUISprite;
 	UIShipObject*					m_UISprite;
 

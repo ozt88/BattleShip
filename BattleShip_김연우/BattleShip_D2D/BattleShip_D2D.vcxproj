@@ -24,7 +24,7 @@
     <ClInclude Include="D2DScene.h" />
     <ClInclude Include="D2DSprite.h" />
     <ClInclude Include="Destroyer.h" />
-    <ClInclude Include="EndObject.h" />
+    <ClInclude Include="InteractiveObject.h" />
     <ClInclude Include="EnemyUI.h" />
     <ClInclude Include="Enum.h" />
     <ClInclude Include="GameManager.h" />
@@ -34,6 +34,7 @@
     <ClInclude Include="Ship.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="UIShipObject.h" />
+    <ClInclude Include="User.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AirCraft.cpp" />
@@ -49,7 +50,7 @@
     <ClCompile Include="D2DScene.cpp" />
     <ClCompile Include="D2DSprite.cpp" />
     <ClCompile Include="Destroyer.cpp" />
-    <ClCompile Include="EndObject.cpp" />
+    <ClCompile Include="InteractiveObject.cpp" />
     <ClCompile Include="EnemyUI.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
@@ -58,6 +59,7 @@
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="UIShipObject.cpp" />
+    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4C5C1367-E970-4BF0-994D-643FBE389470}</ProjectGuid>
@@ -88,8 +90,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\ozt\Desktop\ozt\git\BattleShip\BattleShip_김연우\BattleShip_D2D\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\ozt\Desktop\ozt\git\BattleShip\BattleShip_김연우\BattleShip_D2D\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Administrator\Desktop\me\git\BattleShip\BattleShip_김연우\BattleShip_D2D\Include;C:\Users\ozt\Desktop\ozt\git\BattleShip\BattleShip_김연우\BattleShip_D2D\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Administrator\Desktop\me\git\BattleShip\BattleShip_김연우\BattleShip_D2D\Lib;C:\Users\ozt\Desktop\ozt\git\BattleShip\BattleShip_김연우\BattleShip_D2D\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -10,7 +10,7 @@ public:
 	Player();
 	~Player();
 
-	void					InitPlayer();
+	virtual void			InitPlayer();
 	void					SetupShips();
 	bool					IsValidPosition( const Position& setPos , int maxHp , const MyDirection& direction );
 

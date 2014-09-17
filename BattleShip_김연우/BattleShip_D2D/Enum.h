@@ -3,10 +3,11 @@
 #define MAP_HEIGHT 8
 #define MAP_SIZE (MAP_WIDTH * MAP_HEIGHT)
 #define SHIP_NUM 5
-#define FONT_NAME L"Verdana"
-#define FONT_SIZE 20
+#define FONT_NAME L"Consolas"
+#define FONT_SIZE 15
 #define BUFFERSIZE 256
-#define SERVERIPPORT "10.73.42.117", 9001
+//#define SERVERIPPORT "10.73.42.117", 9001
+#define SERVERIPPORT "127.0.0.1", 9001
 //#define SERVERIPPORT "10.73.43.26", 9001
 
 
@@ -58,14 +59,14 @@ enum Menu
 
 enum GameState
 {
-	WAIT,
-	ATTACK ,
-	RESULT ,
-	RUNNING ,
-	RESET ,
+	GAME_WAIT,
+	GAME_ATTACK ,
+	GAME_RESULT ,
+	GAME_RUNNING ,
+	GAME_RESET ,
 	GAME_END ,
 	GAME_OVER ,
-	QUIT_GAME ,
+	GAME_QUIT ,
 };
 
 enum AImode
@@ -78,6 +79,20 @@ enum GameMode
 {
 	SOLO,
 	NETWORK,	
+};
+
+enum SystemState
+{
+	START_INIT,
+	START_RUNNING,
+	NETWORK_INIT,
+	NETWORK_READY,
+	NETWORK_RESET,
+	NETWORK_RUNNING,
+	SOLO_INIT,
+	SOLO_RUNNING,
+	SYSTEM_PAUSE,
+	SYSTEM_QUIT,
 };
 
 struct Position
