@@ -6,9 +6,10 @@
 #define FONT_NAME L"Consolas"
 #define FONT_SIZE 15
 #define BUFFERSIZE 256
-//#define SERVERIPPORT "10.73.42.117", 9001
-#define SERVERIPPORT "127.0.0.1", 9001
-//#define SERVERIPPORT "10.73.43.26", 9001
+#define SERVERIPPORT "10.73.42.117", 9000
+
+//#define SERVERIPPORT "127.0.0.1", 9001 //내컴
+//#define SERVERIPPORT "10.73.43.26", 9001 //현욱
 
 
 

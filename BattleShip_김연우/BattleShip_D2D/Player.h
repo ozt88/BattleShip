@@ -39,10 +39,14 @@ public:
 	bool					CheckMissDir(OUT Position* nextPos);
 	bool					FindDestroyDir( const Position& position , int size , OUT MyDirection* dir );
 	bool					RemoveDestroyedPath( const Position& position , int size , const MyDirection& dir );
-
+	void					FindBestSetupPos( OUT Position* setupPos , OUT MyDirection* setupDir , int shipSize );
+	int						SumProbforShip(const Position& positon, const MyDirection& dir, int shipSize);
+	void					SetEnemyShip( const Position& positon , const MyDirection& dir , int shipSize );
 	//NETWORK
 	void					MakeShipData();
 	ShipData*				GetShipData(){ return m_ShipData; }
+
+
 
 private:
 	Board*					m_MyBoard;

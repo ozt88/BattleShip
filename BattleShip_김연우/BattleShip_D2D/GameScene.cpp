@@ -76,7 +76,7 @@ void GameScene::GameOverScene( int winNum , float turnAvg )
 {
 	SceneClear();
 	m_InteractiveObject->StartObjectInit();
-	m_InteractiveObject->SetMessage( std::to_wstring(winNum) + L" wins & avg: "  + std::to_wstring( (int)turnAvg ) );
+	m_InteractiveObject->SetMessage( std::to_wstring(winNum) + L" wins & avg: "  + std::to_wstring( turnAvg ) );
 	this->AddChild( m_InteractiveObject );
 }
 

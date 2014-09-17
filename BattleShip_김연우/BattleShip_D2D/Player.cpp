@@ -8,6 +8,8 @@
 #include "Destroyer.h"
 #include "Enum.h"
 
+#define MAGIC_NUM 70
+
 Player::Player()
 {
 	m_Name = L"Player";
@@ -38,7 +40,6 @@ Player::Player()
 			m_EnemyShipList.push_back( new EnemyShip( ship->GetMaxHP() , 1 ) );
 		}
 	}
-
 	//std::list<Ship*> shipListFromManager;
 	//std::list<Ship*>::iterator iterPos = m_ShipList.begin();
 	//m_ShipList.insert( iterPos , shipListFromManager.begin() , shipListFromManager.end() );
@@ -75,12 +76,14 @@ void Player::SetupShips()
 	{
 		do
 		{
-			direction = ( MyDirection )( rand() % 4 );
-			setPos.m_X = rand() % MAP_WIDTH;
-			setPos.m_Y = rand() % MAP_HEIGHT;
+// 			direction = ( MyDirection )( rand() % 4 );
+// 			setPos.m_X = rand() % MAP_WIDTH;
+// 			setPos.m_Y = rand() % MAP_HEIGHT;
+			FindBestSetupPos( &setPos , &direction , shipIter->GetMaxHP() );
 		} while( !IsValidPosition( setPos , shipIter->GetMaxHP() , direction ) );
 		shipIter->PlaceShip( setPos , direction );
 	}
+	m_EnemyBoard->InitBoard();
 }
 
 
@@ -124,7 +127,7 @@ Position Player::Attack()
 			for( int x = 0; x < MAP_WIDTH; ++x )
 			{
 				curPos = Position( x , y );
-				if( m_EnemyBoard->IsWater( curPos ) && m_EnemyBoard->GetBoardProb( curPos ) > maxProb )
+				if( m_EnemyBoard->IsWater( curPos ) && m_EnemyBoard->GetBoardProb( curPos ) > maxProb && !((x+y)%2) )
 				{
 					maxProbPos = curPos;
 					maxProb = m_EnemyBoard->GetBoardProb( maxProbPos );
@@ -286,7 +289,10 @@ void Player::CalculateBoard()
 			}
 		}
 	}
-
+ 	//m_EnemyBoard->ScaleBoardProb( Position( 0 , 0 ) , 2 );
+ 	//m_EnemyBoard->ScaleBoardProb( Position( MAP_WIDTH - 1 , 0 ) , 2 );
+ 	//m_EnemyBoard->ScaleBoardProb( Position( 0 , MAP_HEIGHT - 1 ) , 2 );
+ 	//m_EnemyBoard->ScaleBoardProb( Position( MAP_WIDTH - 1 , MAP_HEIGHT - 1 ) , 2 );
 }
 
 bool Player::ShipCanOccupy( int x , int y , int shipSize , bool isVertical )
@@ -561,5 +567,60 @@ void Player::MakeShipData()
 		}
 	}
 
+}
+
+void Player::FindBestSetupPos( OUT Position* setupPos , OUT MyDirection* setupDir , int shipSize )
+{
+	Position curPos;
+	MyDirection curDir;
+	int minProb = 200;
+	int curProb = 0;
+	CalculateBoard();
+	for( int x = 0; x < MAP_WIDTH; ++x )
+	{
+		for( int y = 0; y < MAP_HEIGHT; ++y )
+		{
+			for( int i = 0; i < DIR_MAX; ++i )
+			{
+				curPos = Position( x , y );
+				curDir = ( MyDirection) i;
+				curProb = SumProbforShip( curPos , curDir , shipSize ) + rand() % ( MAGIC_NUM );
+				if( curProb <= minProb ) 
+				{
+					*setupPos = curPos;
+					*setupDir = curDir;
+					minProb = curProb;
+				}
+			}
+		}
+	}
+	SetEnemyShip( *setupPos , *setupDir , shipSize );
+}
+
+int Player::SumProbforShip( const Position& position , const MyDirection& dir , int shipSize )
+{
+	Position curPos = position;
+	int sumResult = 0;
+	for( int i = 0; i < shipSize; ++i )
+	{
+		sumResult += m_EnemyBoard->GetBoardProb( curPos );
+		curPos = curPos.dirPos( dir );
+		if( !curPos.isValid() || m_EnemyBoard->GetBoardStatus(curPos) == MISS)
+		{
+			return 1000;
+		}
+	}
+	return sumResult;
+}
+
+void Player::SetEnemyShip( const Position& position , const MyDirection& dir , int shipSize )
+{
+	Position curPos = position;
+	for( int i = 0; i < shipSize; ++i )
+	{
+		_ASSERT( curPos.isValid() );
+		m_EnemyBoard->SetBoardStatus( curPos , MISS );
+		curPos = curPos.dirPos( dir );
+	}
 }
 

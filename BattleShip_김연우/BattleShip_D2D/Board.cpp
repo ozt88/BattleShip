@@ -34,7 +34,7 @@ Board::~Board()
 	m_HitTile->Release();
 }
 
-bool Board::IsOutOfBoard( Position checkPos )
+bool Board::IsOutOfBoard( const Position& checkPos )
 {
 	return ( checkPos.m_X < 0 || checkPos.m_X >= m_Width
 			 || checkPos.m_Y < 0 || checkPos.m_Y >= m_Height );
@@ -64,7 +64,7 @@ void Board::InitBoard()
 	}
 }
 
-void Board::MapUpdate( Position position , HitResult hitResult )
+void Board::MapUpdate( const Position& position , HitResult hitResult )
 {
 	_ASSERT( hitResult != WATER );
 	m_Board[position.m_X][position.m_Y].result = hitResult;
