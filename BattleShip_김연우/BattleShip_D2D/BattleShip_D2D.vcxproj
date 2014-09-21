@@ -15,7 +15,7 @@
     <ClInclude Include="BattleField.h" />
     <ClInclude Include="BattleShip.h" />
     <ClInclude Include="BattleShipApp.h" />
-    <ClInclude Include="BFShipSprite.h" />
+    <ClInclude Include="ActiveShipSprite.h" />
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Cruiser.h" />
@@ -34,14 +34,13 @@
     <ClInclude Include="Ship.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="UIShipObject.h" />
-    <ClInclude Include="User.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AirCraft.cpp" />
     <ClCompile Include="BattleField.cpp" />
     <ClCompile Include="BattleShip.cpp" />
     <ClCompile Include="BattleShipApp.cpp" />
-    <ClCompile Include="BFShipSprite.cpp" />
+    <ClCompile Include="ActiveShipSprite.cpp" />
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Cruiser.cpp" />
@@ -59,11 +58,11 @@
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="UIShipObject.cpp" />
-    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4C5C1367-E970-4BF0-994D-643FBE389470}</ProjectGuid>
     <RootNamespace>BattleShip_D2D</RootNamespace>
+    <ProjectName>BattleShip_김연우</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

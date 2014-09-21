@@ -1,11 +1,20 @@
+/************************************************************************/
+/*
+Class:		ActiveShipSprite
+
+설명:		터지면 비트맵이 바뀌는 배 스프라이트
+
+추가기능:
+*/
+/************************************************************************/
 #pragma once
 #include "D2DSprite.h"
-class BFShipSprite :
+class ActiveShipSprite :
 	public D2DSprite
 {
 public:
-	BFShipSprite();
-	~BFShipSprite();
+	ActiveShipSprite();
+	~ActiveShipSprite();
 
 	void		Init();
 	void		Update();

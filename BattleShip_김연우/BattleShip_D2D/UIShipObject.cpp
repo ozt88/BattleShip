@@ -8,7 +8,7 @@ UIShipObject::UIShipObject()
 	m_PosX = 0;
 	m_PosY = 0;
 	m_HPBitmap = new Bitmap( L"Resource/drum2.png" );
-	m_ShipSprite = new BFShipSprite();
+	m_ShipSprite = new ActiveShipSprite();
 }
 
 
@@ -32,6 +32,7 @@ void UIShipObject::Create( Bitmap* normalBitmap , Bitmap* destroyedBitmap , floa
 
 void UIShipObject::Hit()
 {
+	//맞으면 맨 뒤에 있는 HPSprite를 제거한다.
 	if( m_HPSpriteList.empty() )
 	{
 		return;
@@ -43,6 +44,7 @@ void UIShipObject::Hit()
 
 void UIShipObject::Init()
 {
+	//초기화 할때마다 HPSprite를 클리어하고 다시 생성한다.
 	Clear();
 	m_ShipSprite->Init();
 	D2DSprite* newHPSprite = nullptr;

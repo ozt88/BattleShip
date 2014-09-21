@@ -6,7 +6,7 @@ Ship::Ship()
 	m_HorizontalBitmap(nullptr) , m_VerticalBitmap(nullptr) , m_DestroyedBitmap(nullptr)
 {
 	m_BattleSprite = new D2DSprite();
-	m_EnemyUISprite = new BFShipSprite();
+	m_EnemyUISprite = new ActiveShipSprite();
 	m_UISprite = new UIShipObject();
 }
 

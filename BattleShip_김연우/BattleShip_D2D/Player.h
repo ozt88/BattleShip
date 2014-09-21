@@ -1,3 +1,16 @@
+/************************************************************************/
+/*
+Class:		Player
+
+설명:		게임에 참여하는 플레이어의 클래스
+			Ship 들과 자신과 적의 Board 정보를 가지고 있다.
+			Board정보에 기반하여 Ship을 배치할 수 있다.
+			알맞은 위치를 판단하여 타격할 수 있다.
+			공격을 받았을때 자신의 맵 정보를 읽어 결과를 전송할 수 있다.
+
+추가기능:
+*/
+/************************************************************************/
 #pragma once
 #include "Include.h"
 #include "Enum.h"
@@ -42,6 +55,7 @@ public:
 	void					FindBestSetupPos( OUT Position* setupPos , OUT MyDirection* setupDir , int shipSize );
 	int						SumProbforShip(const Position& positon, const MyDirection& dir, int shipSize);
 	void					SetEnemyShip( const Position& positon , const MyDirection& dir , int shipSize );
+	
 	//NETWORK
 	void					MakeShipData();
 	ShipData*				GetShipData(){ return m_ShipData; }

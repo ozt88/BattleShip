@@ -8,7 +8,6 @@ BattleField::BattleField()
 	GetRenderer()->GetHwndRenderTarget()->
 		CreateSolidColorBrush
 		( D2D1::ColorF( D2D1::ColorF::LightSlateGray ) , &m_Brush );
-
 }
 
 

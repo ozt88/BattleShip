@@ -93,9 +93,6 @@
     <ClInclude Include="GameScene.h">
       <Filter>BattleShip\SceneObject</Filter>
     </ClInclude>
-    <ClInclude Include="BFShipSprite.h">
-      <Filter>BattleShip\SceneObject\Sprites</Filter>
-    </ClInclude>
     <ClInclude Include="UIShipObject.h">
       <Filter>BattleShip\SceneObject\Sprites</Filter>
     </ClInclude>
@@ -111,8 +108,8 @@
     <ClInclude Include="InteractiveObject.h">
       <Filter>BattleShip\SceneObject\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="User.h">
-      <Filter>BattleShip\GameObject</Filter>
+    <ClInclude Include="ActiveShipSprite.h">
+      <Filter>BattleShip\SceneObject\Sprites</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -164,9 +161,6 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>BattleShip\SceneObject</Filter>
     </ClCompile>
-    <ClCompile Include="BFShipSprite.cpp">
-      <Filter>BattleShip\SceneObject\Sprites</Filter>
-    </ClCompile>
     <ClCompile Include="UIShipObject.cpp">
       <Filter>BattleShip\SceneObject\Sprites</Filter>
     </ClCompile>
@@ -182,8 +176,8 @@
     <ClCompile Include="InteractiveObject.cpp">
       <Filter>BattleShip\SceneObject\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="User.cpp">
-      <Filter>BattleShip\GameObject</Filter>
+    <ClCompile Include="ActiveShipSprite.cpp">
+      <Filter>BattleShip\SceneObject\Sprites</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

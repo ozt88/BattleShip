@@ -8,16 +8,19 @@
 #include "Board.h"
 #include "Ship.h"
 
-#define	MAX_GAME_COUNT 10
-#define SLEEPTIME 0
-#define SAFECONNECTIONTIME 2000
+//한 싸이클에서 최대 플레이 횟수
+#define	MAX_GAME_COUNT 10		
+//한 턴이 돌아가는 시간
+#define SLEEPTIME 30			
+//안정적인 네트워크 연결을 위해 시스템을 정지시키는 시간
+#define SAFECONNECTIONTIME 2000	
 
 GameManager* GameManager::m_Instance = nullptr;
 
 GameManager::GameManager()
     :m_GameState(GAME_WAIT) , m_SystemState(START_INIT),
     m_GameCount(0) , m_NumOfTurn(0) , m_Total(0) , m_WinNum(0),
-    m_MyName( L"남현욱져라" )
+    m_MyName( L"김짱쌤" )
 {
     m_GameScene = GameScene::GetInstance();
     m_Network = new Network();
@@ -128,7 +131,6 @@ void GameManager::Run()
 
 void GameManager::StartInit()
 {
-    //m_GameScene->Init();
     m_GameScene->StartScene();
 }
 
@@ -336,10 +338,10 @@ void GameManager::End( bool isWinner )
     }
     else
     {
-        //m_GameScene->GameEndScene( isWinner , m_GameCount , m_NumOfTurn );
+        m_GameScene->GameEndScene( isWinner , m_GameCount , (float)m_NumOfTurn );
         if( isWinner )m_WinNum++;
-        //SetGameState( GAME_END );
-        SetGameState( GAME_RESET );
+        SetGameState( GAME_END );
+        //SetGameState( GAME_RESET );
     }
 
 }
@@ -350,7 +352,7 @@ void GameManager::End()
     std::wstring winner;
     gameResult = m_Network->GetGameResult();
     if( gameResult.isWinner ) m_WinNum++;
-    m_GameScene->GameEndScene( gameResult.isWinner , m_WinNum , gameResult.turns );
+    m_GameScene->GameEndScene( gameResult.isWinner , m_WinNum , (float)gameResult.turns );
     SetSystemState( SYSTEM_PAUSE );
 }
 

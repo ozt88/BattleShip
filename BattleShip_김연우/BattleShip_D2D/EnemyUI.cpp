@@ -1,6 +1,6 @@
 #include "EnemyUI.h"
 #include "Enum.h"
-#include "BFShipSprite.h"
+#include "ActiveShipSprite.h"
 
 EnemyUI::EnemyUI()
 {
@@ -31,7 +31,7 @@ void EnemyUI::MakeDestroySprite( int size )
 	{
 		if( child->Width() == size )
 		{
-			((BFShipSprite*)child)->SetDestroy( true );
+			((ActiveShipSprite*)child)->SetDestroy( true );
 			break;
 		}
 	}
