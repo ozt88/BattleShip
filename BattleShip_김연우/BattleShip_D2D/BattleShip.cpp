@@ -6,9 +6,7 @@ BattleShip::BattleShip()
 	m_HorizontalBitmap = new Bitmap( L"Resource/BattleShipH.png" );
 	m_VerticalBitmap = new Bitmap( L"Resource/BattleShipV.png" );
 	m_DestroyedBitmap = new Bitmap( L"Resource/BattleShipD.png" );
-	m_BattleSprite->Width( 4 );
-	m_BattleSprite->Height( 1 );
-	m_MaxHP = 4;
+	m_MaxHP = ShipSize::BATTLESHIP_SIZE;
 	m_HP = m_MaxHP;
 	m_Type = BATTLESHIP;
 	m_Name = "BattleShip";
@@ -23,9 +21,7 @@ BattleShip::BattleShip( float rowNum )
 	m_HorizontalBitmap = new Bitmap( L"Resource/BattleShipH.png" );
 	m_VerticalBitmap = new Bitmap( L"Resource/BattleShipV.png" );
 	m_DestroyedBitmap = new Bitmap( L"Resource/BattleShipD.png" );
-	m_BattleSprite->Width( 4 );
-	m_BattleSprite->Height( 1 );
-	m_MaxHP = 4;
+	m_MaxHP = ShipSize::BATTLESHIP_SIZE;
 	m_HP = m_MaxHP;
 	m_Type = BATTLESHIP;
 	m_Name = "BattleShip";

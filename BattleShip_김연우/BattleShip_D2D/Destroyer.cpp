@@ -7,9 +7,7 @@ Destroyer::Destroyer()
 	m_VerticalBitmap = new Bitmap( L"Resource/DestroyerV.png" );
 	m_DestroyedBitmap = new Bitmap( L"Resource/DestroyerD.png" );
 
-	m_BattleSprite->Width( 2 );
-	m_BattleSprite->Height( 1 );
-	m_MaxHP = 2;
+	m_MaxHP = ShipSize::DESTROYER_SIZE;
 	m_HP = m_MaxHP;
 	m_Type = DESTROYER;
 	m_Name = "Destroyer";
@@ -27,7 +25,7 @@ Destroyer::Destroyer( float rowNum )
 
 	m_BattleSprite->Width( 2 );
 	m_BattleSprite->Height( 1 );
-	m_MaxHP = 2;
+	m_MaxHP = ShipSize::DESTROYER_SIZE;
 	m_HP = m_MaxHP;
 	m_Type = DESTROYER;
 	m_Name = "Destroyer";

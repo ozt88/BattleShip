@@ -13,6 +13,7 @@ Board::Board()
 		for( int j = 0; j < m_Width; ++j )
 		{
 			m_Board[i][j].result = WATER;
+			//보드 갯수만큼 타일스프라이트 생성
 			m_TileList.push_back( new D2DSprite() );
 		}
 	}
@@ -57,6 +58,7 @@ void Board::InitBoard()
 		{
 			m_Board[x][y].result = WATER;
 			m_Board[x][y].probability = 0;
+			//보드 초기화할때 모든 비트맵들을 노멀타일로 만들어준다.
 			m_TileList[x*m_Width + y]->SetBitmap( m_NormalTile );
 			m_TileList[x*m_Width + y]->SetObject( ( float )x , ( float )y , 
 												  ( float )1 , ( float )1 );
@@ -64,6 +66,7 @@ void Board::InitBoard()
 	}
 }
 
+//위치와 결과값을 인자로 받아서 그 위치의 BOX값과 스프라이트 비트맵을 변경
 void Board::MapUpdate( const Position& position , HitResult hitResult )
 {
 	_ASSERT( hitResult != WATER );
@@ -78,7 +81,7 @@ void Board::MapUpdate( const Position& position , HitResult hitResult )
 	}
 }
 
-
+//배 크기만큼의 Box들에 확률값을 상승시킨다.
 void Board::IncreaseProbablity( int x , int y , int shipSize , bool isVertical )
 {
 	int head = isVertical ? y : x;
@@ -97,31 +100,7 @@ void Board::IncreaseProbablity( int x , int y , int shipSize , bool isVertical )
 
 }
 
-void Board::IncreaseProbablity( int x , int y , int shipSize , MyDirection dir )
-{
-	for( int i = 0; i < shipSize; ++i )
-	{
-		m_Board[x][y].probability++;
-
-		switch( dir )
-		{
-			case UP:
-				y--;
-				break;
-			case DOWN:
-				y++;
-				break;
-			case LEFT:
-				x--;
-				break;
-			case RIGHT:
-				x++;
-				break;
-		}
-	}
-}
-
-
+//전 맵 확률 초기화
 void Board::ClearProb()
 {
 	for( int x = 0; x < m_Height; x++ )

@@ -7,9 +7,7 @@ Cruiser::Cruiser()
 	m_VerticalBitmap = new Bitmap( L"Resource/CruiserV.png" );
 	m_DestroyedBitmap = new Bitmap( L"Resource/CruiserD.png" );
 
-	m_BattleSprite->Width( 3 );
-	m_BattleSprite->Height( 1 );
-	m_MaxHP = 3;
+	m_MaxHP = ShipSize::CRUISER_SIZE;
 	m_HP = m_MaxHP;
 	m_Type = CRUISER;
 	m_Name = "Cruiser";
@@ -24,10 +22,7 @@ Cruiser::Cruiser( float rowNum )
 	m_HorizontalBitmap = new Bitmap( L"Resource/CruiserH.png" );
 	m_VerticalBitmap = new Bitmap( L"Resource/CruiserV.png" );
 	m_DestroyedBitmap = new Bitmap( L"Resource/CruiserD.png" );
-
-	m_BattleSprite->Width( 3 );
-	m_BattleSprite->Height( 1 );
-	m_MaxHP = 3;
+	m_MaxHP = ShipSize::CRUISER_SIZE;
 	m_HP = m_MaxHP;
 	m_Type = CRUISER;
 	m_Name = "Cruiser";

@@ -1,6 +1,7 @@
 #include "BattleShipApp.h"
 #include "D2DRenderer.h"
 #include "GameManager.h"
+#include "GameScene.h"
 
 BattleShipApp* BattleShipApp::m_Instance = nullptr;
 
@@ -39,12 +40,18 @@ void BattleShipApp::ReleaseInstance()
 
 LRESULT CALLBACK BattleShipApp::WndProc( HWND hWnd , UINT iMessage , WPARAM wParam , LPARAM lParam )
 {
+	RECT rt;
 	switch( iMessage )
 	{
 		case WM_CREATE:
 			return 0;
 		case WM_DESTROY:
 			PostQuitMessage( 0 );
+			return 0;
+		case WM_PAINT:
+ 			GetWindowRect( BattleShipApp::GetInstance()->GetHWND() , &rt );
+ 			GameScene::GetInstance()->Width( (float )( rt.right - rt.left ));
+ 			GameScene::GetInstance()->Height( ( float )( rt.bottom - rt.top ));
 			return 0;
 	}
 	return( DefWindowProc( hWnd , iMessage , wParam , lParam ) );

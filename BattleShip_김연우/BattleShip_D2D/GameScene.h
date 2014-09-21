@@ -23,6 +23,8 @@ public:
 	static GameScene*		GetInstance();
 	static void				ReleaseInstance();
 
+	void					Init();
+
 	void					StartScene();
 	void					BattleScene();
 	void					GameEndScene(bool isWin, int winNum, float turnAvg);
@@ -36,7 +38,6 @@ public:
 	InteractiveObject*		GetEndObject(){ return m_InteractiveObject; }
 	EnemyUI*				GetEnemyUI(){return m_EnemyUI;}
 	
-	void					Init();
 private:
 	GameScene();
 	~GameScene();

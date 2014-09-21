@@ -89,8 +89,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\Administrator\Desktop\me\git\BattleShip\BattleShip_김연우\BattleShip_D2D\Include;C:\Users\ozt\Desktop\ozt\git\BattleShip\BattleShip_김연우\BattleShip_D2D\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Administrator\Desktop\me\git\BattleShip\BattleShip_김연우\BattleShip_D2D\Lib;C:\Users\ozt\Desktop\ozt\git\BattleShip\BattleShip_김연우\BattleShip_D2D\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\ozt\Desktop\ozt\git\BattleShip\BattleShip_김연우\BattleShip_D2D\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\ozt\Desktop\ozt\git\BattleShip\BattleShip_김연우\BattleShip_D2D\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -44,6 +44,8 @@ public:
 	void				End(bool isWinner);
 	void				End();
 	void				Exit();
+
+	GameScene*			GetGameScence(){return m_GameScene;}
 	void				SetGameState(GameState state) { m_GameState = state; }
 	GameState			GetGameState() {return m_GameState; }
 	void				SetSystemState(SystemState state) {m_SystemState = state; }

@@ -161,6 +161,9 @@ struct Position
 	}
 };
 
+//EnemyShi 배의 종류와 갯수가 들어있는 구조체이다.
+//같은 종류가 여러개 있는 경우 다루기 쉽게 하기 위해서 이렇게 만듬
+
 struct EnemyShip
 {
 	EnemyShip( int size , int num )

@@ -25,8 +25,8 @@ GameManager::GameManager()
     m_GameScene = GameScene::GetInstance();
     m_Network = new Network();
     m_Player1 = new Player();
-    m_Player1->SetName( L"Player1" );
-    m_Player2 = new Player();
+	m_Player1->SetName( L"Player1" );
+	m_Player2 = new Player();
     m_Player2->SetName( L"Player2" );
 }
 
@@ -48,14 +48,15 @@ GameManager* GameManager::GetInstance()
 
 void GameManager::ReleaseInstance()
 {
-    if( m_Instance != nullptr )
-    {
-        SafeDelete( m_Instance );
-    }
+	SafeDelete( m_Instance );
 }
 
 void GameManager::Init()
 {
+	//Player 생성까지 완료되면 플레이어로 부터 배의 스프라이트들과 
+	//플레이어가 들고 있는 맵의 타일 스프라이트를 받을 수 있다.
+	//초기화할때 한번만 이 스프라이트와 오브젝트들을 GameScene에 추가한다.
+
     for( auto MyTile : m_Player1->GetMyBoard()->GetTileList() )
     {
         m_GameScene->GetMyBattleField()->AddChild( MyTile );
@@ -70,7 +71,6 @@ void GameManager::Init()
         m_GameScene->GetUI()->AddChild( ship->GetUISprite() );
         m_GameScene->GetEnemyUI()->AddChild( ship->GetEnemyUISprite() );
     }
-
     m_GameScene->Init();
 }
 

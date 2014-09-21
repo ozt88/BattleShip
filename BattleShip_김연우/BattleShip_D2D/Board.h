@@ -20,6 +20,8 @@ Class:		Board
 
 class D2DSprite;
 class Bitmap;
+//맵들의 한칸한칸이 가지고 있는 정보
+//현재 맵의 상태를 HitResult로 표현, 맵의 확률을 int로 표현
 struct Box
 {
 	HitResult	result;
@@ -47,7 +49,6 @@ public:
 	HitResult				GetBoardStatus(const Position& checkPos) { return m_Board[checkPos.m_X][checkPos.m_Y].result; }
 	
 	void					IncreaseProbablity( int x , int y , int shipSize , bool isVertical);
-	void					IncreaseProbablity( int x , int y , int shipSize , MyDirection dir );
 	void					ClearProb();
 
 private:

@@ -10,7 +10,6 @@ Ship::Ship()
 	m_UISprite = new UIShipObject();
 }
 
-
 Ship::~Ship()
 {
 	m_HorizontalBitmap->Release();
@@ -30,29 +29,19 @@ void Ship::ShipInit()
 	m_IsDestroyed = false;
 }
 
+//setPos를 시작으로 direction 방향으로 배를 배치(Pos에 위치값 추가)
 void Ship::PlaceShip( Position setPos , MyDirection direction )
 {
+	Position curPos = setPos;
 	for( int i = 0; i < GetMaxHP(); i++ )
 	{
-		AddPosition( setPos );
-
-		switch( direction )
-		{
-			case UP:
-				setPos.m_Y--;
-				break;
-			case DOWN:
-				setPos.m_Y++;
-				break;
-			case LEFT:
-				setPos.m_X--;
-				break;
-			case RIGHT:
-				setPos.m_X++;
-				break;
-		}
+		AddPosition( curPos );
+		curPos = curPos.dirPos( direction );
 	}
 	
+	//그후 BattleSprite의 위치를 정해주고 종/횡 비트맵 설정
+	//배틀쉽 게임내에서 스프라이트의 위치가 변화할 경우가 없으므로
+	//초기화할때 사용되는 PlaceShip에서만 지정하면 된다.
 
 	switch( direction )
 	{
@@ -79,8 +68,8 @@ void Ship::PlaceShip( Position setPos , MyDirection direction )
 		default:
 			break;
 	}
-
 }
+
 
 void Ship::AddPosition( Position addPos )
 {
@@ -107,11 +96,14 @@ HitResult Ship::HitCheck( Position hitPos )
 			positionIter.m_X = -1;
 			positionIter.m_Y = -1;
 			--m_HP;
+			//Hp가 깎인 것을 UIsprite에도 전달.
+			//HP Sprite 하나를 줄여줌
 			m_UISprite->Hit();
 
 			if( m_HP <= 0 )
 			{
 				m_IsDestroyed = true;
+				//파괴된 경우 UISprite의 ShipSprite를 파괴비트맵으로 전환
 				m_UISprite->GetShipSprite()->SetDestroy( true );
 				return DESTROY;
 			}
@@ -125,7 +117,7 @@ HitResult Ship::HitCheck( Position hitPos )
 	return MISS;
 }
 
-
+//배를 배치할때 겹치면 안된다. 따라서 필요한 Duplicate 체크를 실행하는 함수.
 bool Ship::IsDuplicate( Position checkPos )
 {
 
