@@ -18,8 +18,8 @@ public:
 	Bitmap( std::wstring bitmapPath );
 	~Bitmap();
 
-	void Release();
-	ID2D1Bitmap* GetD2D1Bitmap(){return m_D2DBitmap;}
+	void						SafeRelease();
+	ID2D1Bitmap*				GetD2D1Bitmap(){return m_D2DBitmap;}
 
 private:
 	static IWICImagingFactory*	m_WICFactory;

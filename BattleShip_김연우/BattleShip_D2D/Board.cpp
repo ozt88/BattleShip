@@ -30,9 +30,9 @@ Board::~Board()
 		SafeDelete(m_Board[i]);
 	}
 	SafeDelete(m_Board);
-	m_MissedTile->Release();
-	m_NormalTile->Release();
-	m_HitTile->Release();
+	m_MissedTile->SafeRelease();
+	m_NormalTile->SafeRelease();
+	m_HitTile->SafeRelease();
 }
 
 bool Board::IsOutOfBoard( const Position& checkPos )
@@ -70,6 +70,10 @@ void Board::InitBoard()
 void Board::MapUpdate( const Position& position , HitResult hitResult )
 {
 	_ASSERT( hitResult != WATER );
+	if( IsOutOfBoard( position ) )
+	{
+		return;
+	}
 	m_Board[position.m_X][position.m_Y].result = hitResult;
 	if( hitResult == MISS )
 	{

@@ -14,7 +14,7 @@ UIShipObject::UIShipObject()
 
 UIShipObject::~UIShipObject()
 {
-	m_HPBitmap->Release();
+	m_HPBitmap->SafeRelease();
 	m_ShipSprite->Clear();
 }
 

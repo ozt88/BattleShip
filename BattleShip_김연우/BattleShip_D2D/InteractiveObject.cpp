@@ -51,11 +51,11 @@ InteractiveObject::~InteractiveObject()
 	m_LeftButton->Clear();
 	m_RightButton->Clear();
 
-	m_EndTitleBitmap->Release();
-	m_RetryMarkedBitmap->Release();
-	m_RetryUnmarkedBitmap->Release();
-	m_ExitMarkedBitmap->Release();
-	m_ExitUnmarkedBitmap->Release();
+	m_EndTitleBitmap->SafeRelease();
+	m_RetryMarkedBitmap->SafeRelease();
+	m_RetryUnmarkedBitmap->SafeRelease();
+	m_ExitMarkedBitmap->SafeRelease();
+	m_ExitUnmarkedBitmap->SafeRelease();
 }
 
 void InteractiveObject::Init()

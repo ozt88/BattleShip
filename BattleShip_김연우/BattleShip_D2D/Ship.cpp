@@ -12,9 +12,10 @@ Ship::Ship()
 
 Ship::~Ship()
 {
-	m_HorizontalBitmap->Release();
-	m_VerticalBitmap->Release();
-	m_DestroyedBitmap->Release();
+	//safeRelesase
+	m_HorizontalBitmap->SafeRelease();
+	m_VerticalBitmap->SafeRelease();
+	m_DestroyedBitmap->SafeRelease();
 
 	m_BattleSprite->Clear();
 	m_UISprite->Clear();

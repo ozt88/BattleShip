@@ -32,6 +32,7 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
+	SafeDelete(m_Network);
     SafeDelete(m_Player1);
     SafeDelete(m_Player2);
     m_GameScene->ReleaseInstance();

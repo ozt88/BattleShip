@@ -31,6 +31,4 @@
 #include <string>
 #include <map>
 
-
-
 #define SafeDelete(x) {if(x != nullptr){delete x; x = nullptr;}}

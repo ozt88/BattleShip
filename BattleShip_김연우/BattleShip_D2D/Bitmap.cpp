@@ -73,7 +73,7 @@ Bitmap::Bitmap( std::wstring bitmapPath )
 
 Bitmap::~Bitmap()
 {
-	Release();
+	SafeRelease();
 	if( m_WICFactory != nullptr )
 	{
 		m_WICFactory->Release();
@@ -81,7 +81,7 @@ Bitmap::~Bitmap()
 	}
 }
 
-void Bitmap::Release()
+void Bitmap::SafeRelease()
 {
 	if( m_D2DBitmap != nullptr )
 	{
