@@ -54,6 +54,7 @@ public:
 
 	void				GetPacket();
 	HitResult			AttackResultPassing( AttackResultTypes result );
+	bool				Engage(Player* attacker, Player* defender);
 
 private:
 	GameManager();

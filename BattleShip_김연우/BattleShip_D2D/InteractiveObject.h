@@ -39,8 +39,8 @@ public:
 	void					EndObjectInit();
 	void					StartObjectInit();
 
-	bool					IsMouseOverRetry();
-	bool					IsMouseOverExit();
+	bool					IsMouseOverLeftButton();
+	bool					IsMouseOverRightButton();
 	void					GameEndAction();
 	void					GameStartAction();
 	void					GameOverAction();

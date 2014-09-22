@@ -76,49 +76,65 @@ void GameManager::Init()
 
 void GameManager::Render()
 {
+	//Render는 그냥 GameScene Render로 충분하다.
+	//##GameScene과 GameManager를 분리할 수 있을것 같다.
+	//##서로 다른 루프로 연산을 하도록 만드는 것이 효율적이라고 생각.
+	//##수정의 여지..
     m_GameScene->Render();
 }
 
+//GM의 업데이트는 현 시스템 상태에 따라 결정된다.
 void GameManager::Update()
 {
     switch( m_SystemState )
     {
+		//처음 프로그램 켰을때
         case START_INIT:
             StartInit();
             SetSystemState( START_RUNNING );
             break;
+		//재대로 부팅이 되었으면 입력을 대기
         case START_RUNNING:
             //input wait
             break;
+		//네트워크를 시작할때
         case NETWORK_INIT:
             NetworkInit();
             break;
+		//네트워크 시작 대기
         case NETWORK_READY:
             NetworkReady();
             break;
+		//네트워크 재시작
         case NETWORK_RESET:
             NetworkReset();
             break;
+		//네트워크 게임중
         case NETWORK_RUNNING:
             GetPacket();
             NetworkPlay();
             break;
+		//솔로 게임 시작
         case SOLO_INIT:
             SoloInit();
             SetSystemState( SOLO_RUNNING );
             break;
+		//솔로 게임중
         case SOLO_RUNNING:
             SoloPlay();
             break;
+		//시스템 전체 일시정지(update시 아무것도 안함)
         case SYSTEM_PAUSE:
             //input wait
             break;
+		//시스템 종료
         case SYSTEM_QUIT:
             PostQuitMessage( 0 );
             break;
         default:
             break;
     }
+	//GM업데이트 끝났으면 GS도 업데이트
     m_GameScene->Update();
 }
 
@@ -145,44 +161,32 @@ void GameManager::SoloInit()
     SetGameState( GAME_RUNNING );
 }
 
+//게임 플레이는 게임 상태에 따라 진행된다.
 void GameManager::SoloPlay()
 {
     switch( m_GameState )
     {
+		//게임 진행중
         case GAME_RUNNING:
-            if( m_Player1->AllShipIsDestroyed() )
-            {
-                End( false );
-            }
-            else if( m_Player2->AllShipIsDestroyed() )
-            {
-                End( true );
-            }
-            else
-            {
-                m_NumOfTurn++;
-                Position hitPosition = m_Player1->Attack();
-                HitResult hitResult = m_Player2->SendResult( hitPosition );
-                m_Player1->UpdateEnemyBoard( hitPosition , hitResult );
-                m_Player2->UpdateMyBoard( hitPosition , hitResult );
-                Sleep( SLEEPTIME );
-
-                Position hitPosition2 = m_Player2->Attack();
-                HitResult hitResult2 = m_Player1->SendResult( hitPosition2 );
-                m_Player2->UpdateEnemyBoard( hitPosition2 , hitResult2 );
-                m_Player1->UpdateMyBoard( hitPosition2 , hitResult2 );
-                Sleep( SLEEPTIME );
-            }
+            m_NumOfTurn++;
+			if( Engage( m_Player1 , m_Player2 ) )
+			{
+				End( true );
+			}
+			else if( Engage( m_Player2 , m_Player1 ) )
+			{
+				End( false );
+			}
             break;
-
+		//한 게임 종료
         case GAME_END:
             break;
-
+		//게임 리셋
         case GAME_RESET:
             SoloInit();
             SetGameState( GAME_RUNNING );
             break;
-
+		//전체 게임 종료
         case GAME_OVER:
             Exit();
             SetGameState( GAME_WAIT );
@@ -198,6 +202,20 @@ void GameManager::SoloPlay()
 
     m_GameScene->Update();
 }
+
+
+bool GameManager::Engage( Player* attacker , Player* defender )
+{
+	Position hitPosition = attacker->Attack();
+	HitResult hitResult = defender->SendResult( hitPosition );
+	attacker->UpdateEnemyBoard( hitPosition , hitResult );
+	defender->UpdateMyBoard( hitPosition , hitResult );
+	Sleep( SLEEPTIME );
+
+	return defender->AllShipIsDestroyed();
+}
+
+
 void GameManager::NetworkInit()
 {
     ErrorType error;

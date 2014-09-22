@@ -8,6 +8,8 @@
 
 InteractiveObject::InteractiveObject()
 {
+	//생성할때 필요한 비트맵과 스프라이트를 생성하고 자식에 추가, 위치를 지정한다.
+	//##비트맵을 이렇게 남발하는것은 좋아보이지 않음...수정의 여지
 	SetObject( POSX , POSY , WIDTH , HEIGTH );
 	m_ScaleX = m_Width / BOX_NUM_X;
 	m_ScaleY = m_Height / BOX_NUM_Y;
@@ -15,8 +17,6 @@ InteractiveObject::InteractiveObject()
 	m_MainSprite = new D2DSprite();
 	m_LeftButton = new D2DSprite();
 	m_RightButton = new D2DSprite();
-
-
 
 	m_BootingTitleBitmap = new Bitmap( L"Resource/StartTitle.png" );
 	m_SoloUnmarkedBitmap = new Bitmap( L"Resource/Solo.png" );
@@ -31,9 +31,6 @@ InteractiveObject::InteractiveObject()
 	m_ExitMarkedBitmap = new Bitmap( L"Resource/Exit1.png" );
 
 	m_MousePointer = new CPoint();
-
-
-	
 
 	m_MainSprite->SetObject( 0 , 0 , BOX_NUM_X , BOX_NUM_Y - 1 );
 	m_LeftButton->SetObject( 0 , 2 , BOX_NUM_X / 2 , BOX_NUM_Y * 1 / 3 );
@@ -59,7 +56,6 @@ InteractiveObject::~InteractiveObject()
 	m_RetryUnmarkedBitmap->Release();
 	m_ExitMarkedBitmap->Release();
 	m_ExitUnmarkedBitmap->Release();
-
 }
 
 void InteractiveObject::Init()
@@ -85,12 +81,16 @@ void InteractiveObject::Render()
 		m_Brush
 		);
 	//Super HardCoding....
+	//DrawText하는 RECT값이 어떤 의미인지 아직 잘 모르겠다...
+	//matrix와의 관계는?
+	//##수정의 여지
 }
 
 void InteractiveObject::Update()
 {
 	GameState state = GameManager::GetInstance()->GetGameState();
-
+	//상호작용 오브젝트가 활성화된 상태가 어떤 것이냐에 따라
+	//입력에 응답하는 방식이 달라진다.
 	switch( state )
 	{
 		case GAME_WAIT:
@@ -111,27 +111,30 @@ void InteractiveObject::Update()
 	D2DObject::Update();
 }
 
-bool InteractiveObject::IsMouseOverRetry()
+//마우스 오버인지 확인하는 함수
+bool InteractiveObject::IsMouseOverLeftButton()
 {
-	
+	//현재 마우스 포인터의 위치를 받아서 현재 윈도우의 상대적인 좌표로 변환한다.
 	GetCursorPos( m_MousePointer );
 	ScreenToClient( BattleShipApp::GetInstance()->GetHWND() , m_MousePointer );
 
 	float x = ( float )m_MousePointer->x;
 	float y = ( float )m_MousePointer->y;
 
+	//마우스 오버 영역의 좌상단 좌표를 start 우하단 좌표를 end로 잡고 계산한다.
 	float startX , startY , endX , endY;
+	//scale을 활용 오브젝트 상대좌표에서 윈도우 상대좌표로 계산한다.
 	startX = m_PosX + m_ScaleX * m_LeftButton->PosX();
 	startY = m_PosY + m_ScaleY * m_LeftButton->PosY();
 	endX = startX + m_ScaleX * m_LeftButton->Width();
 	endY = startY + m_ScaleY * m_LeftButton->Height();
+	//##발생문제, 윈도우 크기조절하면 이 마우스오버연산이 제대로 작동안한다.
 
 	return( m_MousePointer->x > startX && m_MousePointer->x < endX
 		&& m_MousePointer->y > startY && m_MousePointer->y < endY );
-
 }
 
-bool InteractiveObject::IsMouseOverExit()
+bool InteractiveObject::IsMouseOverRightButton()
 {
 	GetCursorPos( m_MousePointer );
 	ScreenToClient( BattleShipApp::GetInstance()->GetHWND() , m_MousePointer );
@@ -151,7 +154,6 @@ bool InteractiveObject::IsMouseOverExit()
 
 void InteractiveObject::EndObjectInit()
 {
-	//m_MainSprite->SetBitmap( m_EndTitleBitmap );
 	m_LeftButton->SetBitmap( m_RetryUnmarkedBitmap );
 	m_RightButton->SetBitmap( m_ExitUnmarkedBitmap );
 }
@@ -163,33 +165,38 @@ void InteractiveObject::StartObjectInit()
 	m_RightButton->SetBitmap( m_MultiUnmarkedBitmap );
 }
 
+//Action은 버튼클릭에 관련된 상호작용이다.
 void InteractiveObject::GameStartAction()
 {
-	if( IsMouseOverRetry() && m_LeftButton->GetBitmap() != m_SoloMarkedBitmap )
+	//마우스오버가되면 비트맵을 변경하고
+	if( IsMouseOverLeftButton() && m_LeftButton->GetBitmap() != m_SoloMarkedBitmap )
 	{
 		m_LeftButton->SetBitmap( m_SoloMarkedBitmap );
 	}
-	else if( IsMouseOverRetry() && GetKeyState( VK_LBUTTON ) & 0x8000 )
+	//그상태에서 버튼이 눌리면 게임과 시스템의 상태를 변경한다.
+	else if( IsMouseOverLeftButton() && GetKeyState( VK_LBUTTON ) & 0x8000 )
 	{
 		GameManager::GetInstance()->SetGameMode( SOLO );
 		GameManager::GetInstance()->SetSystemState( SOLO_INIT );
 	}
-	else if( !IsMouseOverRetry() && m_LeftButton->GetBitmap() != m_SoloUnmarkedBitmap )
+	//마우스 오버가 풀려도 비트맵을 변경
+	else if( !IsMouseOverLeftButton() && m_LeftButton->GetBitmap() != m_SoloUnmarkedBitmap )
 	{
 		m_LeftButton->SetBitmap( m_SoloUnmarkedBitmap );
 	}
 
-	if( IsMouseOverExit() && m_RightButton->GetBitmap() != m_MultiMarkedBitmap )
+	//오른쪽 버튼도 똑같다.
+	if( IsMouseOverRightButton() && m_RightButton->GetBitmap() != m_MultiMarkedBitmap )
 	{
 		m_RightButton->SetBitmap( m_MultiMarkedBitmap );
 	}
-	else if( IsMouseOverExit() && GetKeyState( VK_LBUTTON ) & 0x8000 )
+	else if( IsMouseOverRightButton() && GetKeyState( VK_LBUTTON ) & 0x8000 )
 	{
 		SetMessage( L"네트워크 연결중..." );
 		GameManager::GetInstance()->SetGameMode( NETWORK );
 		GameManager::GetInstance()->SetSystemState( NETWORK_INIT );
 	}
-	else if( !IsMouseOverExit() && m_RightButton->GetBitmap() != m_MultiUnmarkedBitmap )
+	else if( !IsMouseOverRightButton() && m_RightButton->GetBitmap() != m_MultiUnmarkedBitmap )
 	{
 		m_RightButton->SetBitmap( m_MultiUnmarkedBitmap );
 	}
@@ -197,11 +204,11 @@ void InteractiveObject::GameStartAction()
 
 void InteractiveObject::GameEndAction()
 {
-	if( IsMouseOverRetry() && m_LeftButton->GetBitmap() != m_RetryMarkedBitmap )
+	if( IsMouseOverLeftButton() && m_LeftButton->GetBitmap() != m_RetryMarkedBitmap )
 	{
 		m_LeftButton->SetBitmap( m_RetryMarkedBitmap );
 	}
-	else if( IsMouseOverRetry() && GetKeyState( VK_LBUTTON ) & 0x8000 )
+	else if( IsMouseOverLeftButton() && GetKeyState( VK_LBUTTON ) & 0x8000 )
 	{
 		if( GameManager::GetInstance()->GetGameMode() == SOLO )
 		{
@@ -212,20 +219,20 @@ void InteractiveObject::GameEndAction()
 			GameManager::GetInstance()->SetSystemState( NETWORK_RUNNING );
 		}
 	}
-	else if( !IsMouseOverRetry() && m_LeftButton->GetBitmap() != m_RetryUnmarkedBitmap )
+	else if( !IsMouseOverLeftButton() && m_LeftButton->GetBitmap() != m_RetryUnmarkedBitmap )
 	{
 		m_LeftButton->SetBitmap( m_RetryUnmarkedBitmap );
 	}
 
-	if( IsMouseOverExit() && m_RightButton->GetBitmap() != m_ExitMarkedBitmap )
+	if( IsMouseOverRightButton() && m_RightButton->GetBitmap() != m_ExitMarkedBitmap )
 	{
 		m_RightButton->SetBitmap( m_ExitMarkedBitmap );
 	}
-	else if( IsMouseOverExit() && GetKeyState( VK_LBUTTON ) & 0x8000 )
+	else if( IsMouseOverRightButton() && GetKeyState( VK_LBUTTON ) & 0x8000 )
 	{
 		GameManager::GetInstance()->SetSystemState(SYSTEM_QUIT);
 	}
-	else if( !IsMouseOverExit() && m_RightButton->GetBitmap() != m_ExitUnmarkedBitmap )
+	else if( !IsMouseOverRightButton() && m_RightButton->GetBitmap() != m_ExitUnmarkedBitmap )
 	{
 		m_RightButton->SetBitmap( m_ExitUnmarkedBitmap );
 	}
@@ -233,28 +240,28 @@ void InteractiveObject::GameEndAction()
 
 void InteractiveObject::GameOverAction()
 {
-	if( IsMouseOverRetry() && m_LeftButton->GetBitmap() != m_RetryMarkedBitmap )
+	if( IsMouseOverLeftButton() && m_LeftButton->GetBitmap() != m_RetryMarkedBitmap )
 	{
 		m_LeftButton->SetBitmap( m_RetryMarkedBitmap );
 	}
-	else if( IsMouseOverRetry() && GetKeyState( VK_LBUTTON ) & 0x8000 )
+	else if( IsMouseOverLeftButton() && GetKeyState( VK_LBUTTON ) & 0x8000 )
 	{
 		GameManager::GetInstance()->SetSystemState( START_INIT );
 	}
-	else if( !IsMouseOverRetry() && m_LeftButton->GetBitmap() != m_RetryUnmarkedBitmap )
+	else if( !IsMouseOverLeftButton() && m_LeftButton->GetBitmap() != m_RetryUnmarkedBitmap )
 	{
 		m_LeftButton->SetBitmap( m_RetryUnmarkedBitmap );
 	}
 
-	if( IsMouseOverExit() && m_RightButton->GetBitmap() != m_ExitMarkedBitmap )
+	if( IsMouseOverRightButton() && m_RightButton->GetBitmap() != m_ExitMarkedBitmap )
 	{
 		m_RightButton->SetBitmap( m_ExitMarkedBitmap );
 	}
-	else if( IsMouseOverExit() && GetKeyState( VK_LBUTTON ) & 0x8000 )
+	else if( IsMouseOverRightButton() && GetKeyState( VK_LBUTTON ) & 0x8000 )
 	{
 		GameManager::GetInstance()->SetSystemState( SYSTEM_QUIT );
 	}
-	else if( !IsMouseOverExit() && m_RightButton->GetBitmap() != m_ExitUnmarkedBitmap )
+	else if( !IsMouseOverRightButton() && m_RightButton->GetBitmap() != m_ExitUnmarkedBitmap )
 	{
 		m_RightButton->SetBitmap( m_ExitUnmarkedBitmap );
 	}

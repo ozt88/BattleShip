@@ -32,6 +32,7 @@ void BattleField::Render()
  	GetRenderer()->GetHwndRenderTarget()->
  		SetTransform( D2D1::Matrix3x2F::Identity() );
 	
+	//정방형의 격자를 그리는 부분
 	for( int i = 0; i < MAP_WIDTH + 1 ; ++i )
 	{
 		GetRenderer()->GetHwndRenderTarget()->DrawLine(
