@@ -171,11 +171,11 @@ void GameManager::SoloPlay()
             m_NumOfTurn++;
 			if( Engage( m_Player1 , m_Player2 ) )
 			{
-				End( true );
+				SoloEnd( true );
 			}
 			else if( Engage( m_Player2 , m_Player1 ) )
 			{
-				End( false );
+				SoloEnd( false );
 			}
             break;
 		//한 게임 종료
@@ -186,12 +186,12 @@ void GameManager::SoloPlay()
             SoloInit();
             SetGameState( GAME_RUNNING );
             break;
-		//전체 게임 종료
+		//게임사이클 종료
         case GAME_OVER:
             Exit();
             SetGameState( GAME_WAIT );
             break;
-
+		//시스템 종료
         case GAME_QUIT:
             SetSystemState(SYSTEM_QUIT);
             break;
@@ -203,7 +203,7 @@ void GameManager::SoloPlay()
     m_GameScene->Update();
 }
 
-
+//교전함수 attacker가 defender를 공격 
 bool GameManager::Engage( Player* attacker , Player* defender )
 {
 	Position hitPosition = attacker->Attack();
@@ -211,11 +211,12 @@ bool GameManager::Engage( Player* attacker , Player* defender )
 	attacker->UpdateEnemyBoard( hitPosition , hitResult );
 	defender->UpdateMyBoard( hitPosition , hitResult );
 	Sleep( SLEEPTIME );
-
+	//배가 다 터졌는지를 확인하여 리턴
 	return defender->AllShipIsDestroyed();
 }
 
-
+//네트워크 초기화하는 함수
+//네트워크 오류를 try catch로 잡아서 화면에 어떤 오류인지 출력
 void GameManager::NetworkInit()
 {
     ErrorType error;
@@ -261,6 +262,7 @@ void GameManager::NetworkInit()
     SetSystemState( NETWORK_READY );
 }
 
+//네트워크 연결이 완료되면 상대방을 기다린다.
 void GameManager::NetworkReady()
 {
     Network::GameStartData gameStartData;
@@ -269,7 +271,8 @@ void GameManager::NetworkReady()
     SetSystemState( NETWORK_RESET );
 	Sleep( SAFECONNECTIONTIME );
 }
-    
+
+//게임이 끝나면 새로 리셋한다.
 void GameManager::NetworkReset()
 {
     char mapdata[MAP_SIZE];
@@ -284,6 +287,7 @@ void GameManager::NetworkReset()
     SetGameState( GAME_WAIT );
 }
 
+//네트워크 게임플레이 구현 함수
 void GameManager::NetworkPlay()
 {
     ErrorType error;
@@ -293,6 +297,7 @@ void GameManager::NetworkPlay()
 
     switch( m_GameState )
     {
+		//내 공격턴
         case GAME_ATTACK:
             hitPosition = m_Player1->Attack();
             hitCoord.mX = hitPosition.m_X;
@@ -300,7 +305,7 @@ void GameManager::NetworkPlay()
             error = m_Network->SubmitAttack( hitCoord );
             _ASSERT( error != ET_INVALID_ATTACK );
             break;
-
+		//결과값 받아서 적용
         case GAME_RESULT:
             attackResult = m_Network->GetAttackResult();
             if( attackResult.isMine )
@@ -315,25 +320,28 @@ void GameManager::NetworkPlay()
                 hitPosition.m_X = attackResult.pos.mX;
                 hitPosition.m_Y = attackResult.pos.mY;
                 m_Player1->UpdateMyBoard( hitPosition , AttackResultPassing( ( AttackResultTypes )attackResult.attackResult ) );
-                m_Player1->SendResult( hitPosition );
+                //내가 맞았을때 UIObject에 갱신하기 위하여 SendResult함수를 재탕한다.
+				m_Player1->SendResult( hitPosition ); 
             }
             break;
+		//게임 대기상태
         case GAME_WAIT:
             //waiting...
             break;
+		//한 게임이 종료되면 interactiveObject를 띄우고 입력대기
         case GAME_END:
-            End();
+            NetworkEnd();
             break;
-
+		//게임 리셋
         case GAME_RESET:
             NetworkReset();
             break;
-
+		//한 사이클 종료
         case GAME_OVER:
             Exit();
             SetGameState( GAME_WAIT );
             break;
-
+		//전체 게임 종료
         case GAME_QUIT:
             m_Network->Disconnect();
             PostQuitMessage( 0 );
@@ -346,10 +354,11 @@ void GameManager::NetworkPlay()
 }
 
 
-
-void GameManager::End( bool isWinner )
+//솔로 게임이 끝나면 오브젝트띄워서 입력대기
+void GameManager::SoloEnd( bool isWinner )
 {
     m_Total += m_NumOfTurn;
+	//전체 게임이 끝나는 경우와 아닌 경우로 나눠준다.
     if( m_GameCount++ >= MAX_GAME_COUNT )
     {
         SetGameState( GAME_OVER );
@@ -364,7 +373,8 @@ void GameManager::End( bool isWinner )
 
 }
 
-void GameManager::End()
+//네트워크 게임이 끝나면 오브젝트 띄우고 대기
+void GameManager::NetworkEnd()
 {
     Network::GameResultData gameResult;
     std::wstring winner;
@@ -374,7 +384,7 @@ void GameManager::End()
     SetSystemState( SYSTEM_PAUSE );
 }
 
-
+//게임 종료처리
 void GameManager::Exit()
 {
     
@@ -401,7 +411,7 @@ void GameManager::Exit()
     SetSystemState( SYSTEM_PAUSE );
 }
 
-
+//패킷을 받는 함수
 void GameManager::GetPacket()
 {
     Sleep(SLEEPTIME);
@@ -431,6 +441,8 @@ void GameManager::GetPacket()
             break;
     }
 }
+
+//HitResult값을 Network전용인 AttackResult로 바꿔주는 함수
 HitResult GameManager::AttackResultPassing( AttackResultTypes result )
 {
     switch( result )

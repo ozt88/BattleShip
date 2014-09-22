@@ -41,8 +41,8 @@ public:
 	void				NetworkReset();
 	void				NetworkPlay();
 
-	void				End(bool isWinner);
-	void				End();
+	void				SoloEnd(bool isWinner);
+	void				NetworkEnd();
 	void				Exit();
 
 	GameScene*			GetGameScence(){return m_GameScene;}
